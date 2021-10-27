@@ -18,12 +18,11 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "typescript": "^4.4.4",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "serve -s build",
-    "dev": "nodemon server/index.ts",
+    "server": "node ./server/index.ts",
     "hack": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -48,6 +47,7 @@
     ]
   },
   "devDependencies": {
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.14",
+    "typescript": "^4.4.4"
   }
 }
