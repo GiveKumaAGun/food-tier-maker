@@ -11,7 +11,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@types/jest": "^26.0.24",
-    "@types/node": "^12.20.36",
+    "@types/node": "^16.11.6",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "express": "^4.17.1",
@@ -22,7 +22,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "node server/index.ts",
+    "start": "serve -s build",
+    "dev": "nodemon server/index.ts",
     "hack": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -45,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
   }
 }
