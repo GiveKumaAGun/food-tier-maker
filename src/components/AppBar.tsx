@@ -9,13 +9,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 export default function ButtonAppBar() {
   return (
-    <Box sx={{ flexGrow: 1, position:"relative" }}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Menu Item Ranker
           </Typography>
           <Button color="inherit">Login</Button>
+          <Button variant="outlined" color="inherit">Sign Up</Button>
         </Toolbar>
       </AppBar>
     </Box>
