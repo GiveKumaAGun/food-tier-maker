@@ -6,17 +6,20 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
 
 export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: "fontWeightBold" }}>
             Menu Item Ranker
           </Typography>
           <Button color="inherit">Login</Button>
-          <Button variant="outlined" color="inherit">Sign Up</Button>
+          <Link to="/signup">
+            <Button variant="outlined" sx={{ backgroundColor: "secondary.main", fontWeight: "fontWeightBold"  }}>Sign Up</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>
