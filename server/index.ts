@@ -10,7 +10,7 @@ const app: express.Application = express()
 
 // Redirect root to /books
 app.get('/', (req, res) => {
-  res.send('landing')
+  res.send('Landing')
 })
 
 app.get('/api/hello', (req, res) => {
