@@ -8,10 +8,10 @@ appengine-generated/
 .pnp.js
 
 # testing
-client/coverage
+/coverage
 
 # production
-client/build
+/build
 
 # misc
 .DS_Store
@@ -24,4 +24,4 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-client/.eslintrc
+.eslintrc
