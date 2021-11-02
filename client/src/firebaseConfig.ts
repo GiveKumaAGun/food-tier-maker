@@ -4,6 +4,8 @@ import { initializeApp } from "firebase/app";
 
 import { getAnalytics } from "firebase/analytics"; 
 
+import { getFirestore } from "firebase/firestore"
+
 import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -17,7 +19,7 @@ import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyAb7gQDYCfbu6RSye9FIeRGIM-TTq1TKqk",
+  apiKey: "AIzaSyAb7gQDYCfbu6RSye9FIeRGIM-TTq1TKqk", // move to secrets
 
   authDomain: "menu-item-ranker.firebaseapp.com",
 
@@ -37,6 +39,8 @@ const firebaseConfig = {
 // Initialize Firebase
 
 const app = initializeApp(firebaseConfig);
+
+export const db = getFirestore()
 
 export const auth = getAuth()
 

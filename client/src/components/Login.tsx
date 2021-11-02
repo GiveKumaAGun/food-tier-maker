@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -13,8 +13,50 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "firebase/auth";
 import { provider, auth } from '../firebaseConfig'
+import { GoogleLoginButton } from "react-social-login-buttons";
 
-export default function SignUp() {
+
+export default function Login() {
+
+  React.useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access Google APIs.
+        if (result) {
+          console.log(result)
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          if (credential) {
+            const token = credential.accessToken;
+            console.log('token')
+            console.log(token)
+          }
+          // The signed-in user info.
+          const user = result.user;
+          console.log(user)
+        }
+        // FIX NESTED IFS LATER ^
+      
+
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        console.log(errorCode)
+        const errorMessage = error.message;
+        console.log(errorMessage)
+        // The email of the user's account used.
+        const email = error.email;
+        console.log(email)
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(credential)
+        // ...
+      });
+
+  }, [])
+  
+  const buttonHandler = () => {
+    signInWithRedirect(auth, provider);
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,7 +66,9 @@ export default function SignUp() {
       email: data.get('email'),
       password: data.get('password'),
     });
+    
   };
+
   
   return (
     <Container component="main" maxWidth="xs">
@@ -41,31 +85,10 @@ export default function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-            Sign up
+            Log in
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
-                name="firstName"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-              />
-            </Grid>
+          <Grid container spacing={2}>    
             <Grid item xs={12}>
               <TextField
                 required
@@ -87,12 +110,6 @@ export default function SignUp() {
                 autoComplete="new-password"
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
           </Grid>
           <Button
             type="submit"
@@ -100,16 +117,30 @@ export default function SignUp() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-              Sign Up
+              Log in
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
-                  Already have an account? Sign in
+              <Link to="/signup">
+                  Need an account? Sign Up
               </Link>
             </Grid>
           </Grid>
         </Box>
+      </Box>
+      <Box
+        sx={{
+          marginTop: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Typography variant="h6" sx={{margin: "2rem"}}>
+          Or
+        </Typography>
+        <Button onClick={buttonHandler}>Log in with Google</Button>
+        <Button variant="contained" sx={{margin: "1rem"}}>USE PUBLIC DEMO ACCOUNT</Button>
       </Box>
     </Container>
   )
