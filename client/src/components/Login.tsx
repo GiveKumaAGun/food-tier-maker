@@ -14,28 +14,26 @@ import Container from '@mui/material/Container';
 import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "firebase/auth";
 import { provider, auth } from '../firebaseConfig'
 import { GoogleLoginButton } from "react-social-login-buttons";
+import { useHistory } from 'react-router-dom';
 
 
 export default function Login() {
+  const history = useHistory()
 
   React.useEffect(() => {
     getRedirectResult(auth)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access Google APIs.
         if (result) {
-          console.log(result)
           const credential = GoogleAuthProvider.credentialFromResult(result);
           if (credential) {
             const token = credential.accessToken;
-            console.log('token')
-            console.log(token)
           }
           // The signed-in user info.
           const user = result.user;
-          console.log(user)
+          history.push("/")
         }
         // FIX NESTED IFS LATER ^
-      
 
       }).catch((error) => {
         // Handle Errors here.
@@ -139,7 +137,7 @@ export default function Login() {
         <Typography variant="h6" sx={{margin: "2rem"}}>
           Or
         </Typography>
-        <Button onClick={buttonHandler}>Log in with Google</Button>
+        <Button variant="contained" onClick={buttonHandler}>Log in with Google</Button>
         <Button variant="contained" sx={{margin: "1rem"}}>USE PUBLIC DEMO ACCOUNT</Button>
       </Box>
     </Container>

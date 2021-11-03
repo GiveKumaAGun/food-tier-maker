@@ -1,5 +1,6 @@
 import { atom } from "recoil";
-import { User } from "./interfaces/User"
+import { User, TierList } from "./interfaces/User"
+import { DocumentData } from "@firebase/firestore";
 
 
 export const userState = atom<User | null>({
@@ -7,7 +8,12 @@ export const userState = atom<User | null>({
   default: null
 });
 
-export const userDataState = atom<User | null>({
+export const userDataState = atom<DocumentData | null>({
   key: "userData",
   default: null
+});
+
+export const userListsState = atom<TierList[]>({
+  key: "userData",
+  default: []
 });

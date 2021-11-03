@@ -9,13 +9,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import { Auth, getAuth, signOut } from '@firebase/auth';
+import { auth } from '../firebaseConfig'
+import { useRecoilState } from 'recoil';
+import { userState } from '../atoms';
 
 export default function ButtonAppBar() {
-  let auth: Auth | null = null;
+  const [user, setUser] = useRecoilState(userState)
 
-  React.useEffect(() => {
-    auth = getAuth()
-  }, [])
 
   const test = async () => {
     const response = await axios.get('/api/hello')
@@ -26,6 +26,7 @@ export default function ButtonAppBar() {
     console.log(auth)
     if (auth) {
       signOut(auth);
+      setUser(null);
     }
   }
 
@@ -36,13 +37,18 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: "fontWeightBold" }}>
             Menu Item Ranker
           </Typography>
-          <Link to="/login">
-            <Button color="inherit">Login</Button>
-          </Link>
-          <Link to="/signup">
-            <Button variant="outlined" sx={{ backgroundColor: "secondary.main", fontWeight: "fontWeightBold" }}>Sign Up</Button>
-          </Link>
-          <Button onClick={signOutHandler} sx={{color: 'white'}}>Sign Out</Button>
+          {user ? 
+            <Button color="secondary" variant="contained" sx={{fontWeight: "fontWeightBold"}} onClick={signOutHandler}>Sign Out</Button>
+            :
+            <>
+              <Link to="/login">
+                <Button color="secondary" variant="outlined">Login</Button>
+              </Link>
+              <Link to="/signup">
+                <Button variant="contained" color="secondary" sx={{ fontWeight: "fontWeightBold", marginLeft: "1rem" }}>Sign Up</Button>
+              </Link>
+            </>
+          }
         </Toolbar>
       </AppBar>
     </Box>
