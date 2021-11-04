@@ -4,15 +4,16 @@ import AppBar from './components/AppBar'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container, ThemeProvider } from '@mui/material';
 import theme from './theme'
-import Landing from './components/Landing'
+import Dashboard from './components/Dashboard'
 import SignUp from './components/SignUp'
 import Login from './components/Login'
 import { onAuthStateChanged } from 'firebase/auth'
-import { auth, db } from './firebaseConfig'
+import { auth, db, googleApiKey } from './firebaseConfig'
 import { useRecoilState } from 'recoil';
 import { userState, userDataState, userListsState } from './atoms'
 import { collection, doc, getDoc, setDoc, DocumentReference, DocumentData, query, where, getDocs } from "firebase/firestore";
 import { User, TierList } from './interfaces/User'
+import axios from 'axios';
 
 
 
@@ -35,22 +36,24 @@ function App() {
   }
 
   const getUserLists = async (uid: string) => {
-    const temp: TierList[] = [];
     const q = query(collection(db, "tier_lists"), where("user_id", "==", uid));
     const querySnapshot = await getDocs(q);
     console.log(querySnapshot)
-    querySnapshot.forEach((doc) => {
+    const lists = querySnapshot.docs.map((doc) => {
       // doc.data() is never undefined for query doc snapshots
+      console.log(doc)
       const data = doc.data()
-      temp.push({
-        id: doc.id,
+      console.log(data)
+      return {
+        address: data.address,
+        comment: data.comment,
         ranking_rows: data.ranking_rows,
+        rest_name: data.rest_name,
         rest_id: data.rest_id,
         user_id: data.user_id,
-        rest_name: data.rest_name
-      })
+      }
     });
-    return temp
+    return lists
   }
 
   React.useEffect(() => {
@@ -65,6 +68,7 @@ function App() {
 
         let userInDb = await getUserData(auth.currentUser.uid)
         let lists = await getUserLists(auth.currentUser.uid) 
+        console.log(lists)
         setUserLists(lists)
         if (!userInDb) {
           await setDoc(doc(db, "users", auth.currentUser.uid), {
@@ -85,7 +89,7 @@ function App() {
       <Router>
         <ThemeProvider theme={theme}>
           <AppBar />
-          <Route path="/" exact component={Landing} />
+          <Route path="/" exact component={Dashboard} />
           <Route path="/signup" exact component={SignUp} />
           <Route path="/login" exact component={Login} />
         </ThemeProvider>

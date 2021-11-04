@@ -19,7 +19,7 @@ import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyAb7gQDYCfbu6RSye9FIeRGIM-TTq1TKqk", // move to secrets
+  apiKey: "AIzaSyAb7gQDYCfbu6RSye9FIeRGIM-TTq1TKqk", // set up as env variable
 
   authDomain: "menu-item-ranker.firebaseapp.com",
 
@@ -45,3 +45,5 @@ export const db = getFirestore()
 export const auth = getAuth()
 
 export const provider = new GoogleAuthProvider();
+
+export const googleApiKey = "AIzaSyAb7gQDYCfbu6RSye9FIeRGIM-TTq1TKqk" // set up as env variable
