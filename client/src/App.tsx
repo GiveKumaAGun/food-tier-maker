@@ -12,7 +12,7 @@ import { auth, db, googleApiKey } from './firebaseConfig'
 import { useRecoilState } from 'recoil';
 import { userState, userDataState, userListsState } from './atoms'
 import { collection, doc, getDoc, setDoc, DocumentReference, DocumentData, query, where, getDocs } from "firebase/firestore";
-import { User, TierList } from './interfaces/User'
+import { User, TierListInfo } from './interfaces/User'
 import axios from 'axios';
 
 
@@ -51,6 +51,7 @@ function App() {
         rest_name: data.rest_name,
         rest_id: data.rest_id,
         user_id: data.user_id,
+        geopoint: data.geopoint
       }
     });
     return lists
@@ -75,17 +76,13 @@ function App() {
             name: auth.currentUser.displayName,
             email: auth.currentUser.email,
           })
-        } else {
-          
         }
-      } else {
-        setUser(null)
       }
     })
   }, [])
 
   return (
-    <div style={{ backgroundColor: "#eeeeee", height: "100vh"}} id="app">
+    <div style={{ backgroundColor: "#4a0202", height: "100vh"}} id="app">
       <Router>
         <ThemeProvider theme={theme}>
           <AppBar />

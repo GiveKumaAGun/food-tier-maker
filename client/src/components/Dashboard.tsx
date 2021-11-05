@@ -1,13 +1,16 @@
 import React from 'react'
-import { Container, Paper, Typography, Button } from '@mui/material'
+import { Container, Paper, Typography, Button, Box, Grid } from '@mui/material'
 import { useRecoilValue } from 'recoil'
 import { userListsState, userState } from '../atoms'
 import { collection, doc, getDoc, setDoc, DocumentReference, DocumentData, query, where, getDocs } from "firebase/firestore";
 import { auth, db, googleApiKey } from '../firebaseConfig'
 import axios from 'axios';
-import { TierList } from '../interfaces/User';
+import { TierListInfo } from '../interfaces/User';
 import GoogleMapReact from 'google-map-react';
 import PropTypes from 'prop-types';
+import ListCard from './ListCard';
+import Login from './Login'
+import CreateListDialog from './CreateListDialog'
 
 type Props = {
   lat: number,
@@ -23,7 +26,10 @@ export default function Dashboard() {
   const lists = useRecoilValue(userListsState)
   const [results, setResults] = React.useState([])
 
-
+  React.useEffect(() => {
+    console.log(lists)
+    console.log(lists)
+  }, [lists])
 
   if (user) {
     return (
@@ -33,26 +39,23 @@ export default function Dashboard() {
         </Paper>
         <Paper sx={{margin: "1rem", padding: "2rem"}}>
           <Typography variant="h4">My lists</Typography>
-          {lists.map((list) => (
-            <Paper key={list.rest_id} sx={{backgroundColor: "primary.main", margin: "1rem", padding: "1rem", color: "primary.contrastText"}}>
-              <Typography variant="h5">{list.rest_name}</Typography>
-              <div style={{width: "15rem", height: "15rem"}}>
-                <GoogleMapReact bootstrapURLKeys={{ key: googleApiKey }} defaultCenter={{lat: 12, lng: 12}} defaultZoom={11}>
-                  <AnyReactComponent lat={12} lng={12}></AnyReactComponent>
-                </GoogleMapReact>
-              </div>
-            </Paper>
-          ))}
-          <Paper sx={{backgroundColor: "secondary.main", margin: "1rem", padding: "1rem", color: "secondary.contrastText", textAlign: "center"}}>
-            <Typography variant="h5">Add a new restaurant</Typography>
-          </Paper>
+          <Grid container>
+            <Grid container item sm={3} sx={{ backgroundColor: "primary.main", color: "primary.contrastText", width: "256px", minWidth: "256px", height: "192px", margin: "1rem", alignItems: "center", justifyContent: "center", borderRadius: "4px" }}>
+              <CreateListDialog />
+            </Grid>
+            {lists.map((list) => (
+              <Grid key={list.rest_name} item sm={3} sx={{ margin: "1rem" }}>
+                <ListCard  name={list.rest_name} comment={list.comment ? list.comment : ''} address={list.address ? list.address : ''} />
+              </Grid>
+            ))}
+          </Grid>
         </Paper>
       </Container>
     )
   } else {
     return (
       <Container>
-        Not signed in
+        <Login />
       </Container>
     )
   }

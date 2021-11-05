@@ -10,11 +10,13 @@ import { Link } from 'react-router-dom';
 import axios from 'axios'
 import { Auth, getAuth, signOut } from '@firebase/auth';
 import { auth } from '../firebaseConfig'
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userState } from '../atoms';
+import { userListsState } from '../atoms';
 
 export default function ButtonAppBar() {
   const [user, setUser] = useRecoilState(userState)
+  const setUserLists = useSetRecoilState(userListsState)
 
 
   const test = async () => {
@@ -27,6 +29,7 @@ export default function ButtonAppBar() {
     if (auth) {
       signOut(auth);
       setUser(null);
+      setUserLists([]);
     }
   }
 
@@ -41,12 +44,12 @@ export default function ButtonAppBar() {
             <Button color="secondary" variant="contained" sx={{fontWeight: "fontWeightBold"}} onClick={signOutHandler}>Sign Out</Button>
             :
             <>
-              <Link to="/login">
+              {/* <Link to="/login">
                 <Button color="secondary" variant="outlined">Login</Button>
               </Link>
               <Link to="/signup">
                 <Button variant="contained" color="secondary" sx={{ fontWeight: "fontWeightBold", marginLeft: "1rem" }}>Sign Up</Button>
-              </Link>
+              </Link> */}
             </>
           }
         </Toolbar>
