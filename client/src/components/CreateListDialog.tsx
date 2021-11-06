@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { collection, doc, getDoc, addDoc, DocumentReference, DocumentData, query, where, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, addDoc, DocumentReference, DocumentData, query, where, getDocs, setDoc } from "firebase/firestore";
 import { db } from '../firebaseConfig'
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userListsState, userState } from '../atoms';
@@ -31,12 +31,9 @@ export default function FormDialog() {
   const getUserLists = async (uid: string) => {
     const q = query(collection(db, "tier_lists"), where("user_id", "==", uid));
     const querySnapshot = await getDocs(q);
-    console.log(querySnapshot)
     const lists = querySnapshot.docs.map((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log(doc)
       const data = doc.data()
-      console.log(data)
       return {
         address: data.address,
         comment: data.comment,
@@ -44,7 +41,8 @@ export default function FormDialog() {
         rest_name: data.rest_name,
         rest_id: data.rest_id,
         user_id: data.user_id,
-        geopoint: data.geopoint
+        geopoint: data.geopoint,
+        id: data.id
       }
     });
     return lists
@@ -57,9 +55,9 @@ export default function FormDialog() {
         address: address,
         comment: comment,
         ranking_rows: [],
-        user_id: user.uid
+        user_id: user.uid,
       })
-      console.log(docRef)
+      await setDoc(docRef, { id: docRef.id }, { merge: true });
       let lists = await getUserLists(user.uid) 
       setUserLists(lists)
     }

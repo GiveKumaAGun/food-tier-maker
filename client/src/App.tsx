@@ -39,12 +39,9 @@ function App() {
   const getUserLists = async (uid: string) => {
     const q = query(collection(db, "tier_lists"), where("user_id", "==", uid));
     const querySnapshot = await getDocs(q);
-    console.log(querySnapshot)
     const lists = querySnapshot.docs.map((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log(doc)
       const data = doc.data()
-      console.log(data)
       return {
         address: data.address,
         comment: data.comment,
@@ -52,7 +49,8 @@ function App() {
         rest_name: data.rest_name,
         rest_id: data.rest_id,
         user_id: data.user_id,
-        geopoint: data.geopoint
+        geopoint: data.geopoint,
+        id: data.id
       }
     });
     return lists

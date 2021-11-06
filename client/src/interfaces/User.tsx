@@ -25,6 +25,7 @@ export interface TierListInfo {
   address?: string,
   comment?: string,
   place_id?: string,
-  geopoint?: GeoPoint
+  geopoint?: GeoPoint,
+  id: string,
 }
 

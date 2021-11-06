@@ -15,7 +15,7 @@ export default function ListCard(props: { name: string, comment: string, address
   const setCurrentList = useSetRecoilState(currentListState)
 
   React.useEffect(() => {
-    console.log(props.listData)
+    console.log('props.listData', props.listData)
   }, [])
 
   const buttonHandler = () => {
