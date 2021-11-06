@@ -1,7 +1,7 @@
 import React from 'react'
-import { Container, Paper, Typography, Button, Box, Grid } from '@mui/material'
+import { Container, Paper, Typography, Button, Box, Grid, Card, CardActions } from '@mui/material'
 import { useRecoilValue } from 'recoil'
-import { userListsState, userState } from '../atoms'
+import { userListsState, userState, currentListState } from '../atoms'
 import { collection, doc, getDoc, setDoc, DocumentReference, DocumentData, query, where, getDocs } from "firebase/firestore";
 import { auth, db, googleApiKey } from '../firebaseConfig'
 import axios from 'axios';
@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import ListCard from './ListCard';
 import Login from './Login'
 import CreateListDialog from './CreateListDialog'
+import ListEditor from './ListEditor'
 
 type Props = {
   lat: number,
@@ -25,6 +26,7 @@ export default function Dashboard() {
   const user = useRecoilValue(userState)
   const lists = useRecoilValue(userListsState)
   const [results, setResults] = React.useState([])
+  const currentList = useRecoilValue(currentListState)
 
   React.useEffect(() => {
     console.log(lists)
@@ -32,26 +34,36 @@ export default function Dashboard() {
   }, [lists])
 
   if (user) {
-    return (
-      <Container>
-        <Paper sx={{margin: "1rem", padding: "2rem"}}>
-          <Typography variant="h2" textAlign="center"> Welcome {user.displayName}</Typography>
-        </Paper>
-        <Paper sx={{margin: "1rem", padding: "2rem"}}>
-          <Typography variant="h4">My lists</Typography>
-          <Grid container>
-            <Grid container item sm={3} sx={{ backgroundColor: "primary.main", color: "primary.contrastText", width: "256px", minWidth: "256px", height: "192px", margin: "1rem", alignItems: "center", justifyContent: "center", borderRadius: "4px" }}>
-              <CreateListDialog />
-            </Grid>
-            {lists.map((list) => (
-              <Grid key={list.rest_name} item sm={3} sx={{ margin: "1rem" }}>
-                <ListCard  name={list.rest_name} comment={list.comment ? list.comment : ''} address={list.address ? list.address : ''} />
+    if (!currentList) {
+      return (
+        <Container>
+          <Paper sx={{margin: "1rem", padding: "2rem" }}>
+            <Typography variant="h2" textAlign="center"> Welcome {user.displayName}</Typography>
+          </Paper>
+          <Paper sx={{margin: "1rem", padding: "2rem" }}>
+            <Typography textAlign="center" variant="h4">My lists</Typography>
+            <Grid container sm={12} alignItems="stretch" sx={{ display: 'flex', alignItems: 'stretch', justifyContent: "center" }}>
+              <Grid item style={{display: 'flex', padding: '1rem'}} >
+                <Card color="primary" sx={{ display: 'flex', justifyContent: 'center', alignItems: "center", backgroundColor: "primary.main", color: "primary.contrastText", width: "256px" }}>
+                  <CardActions>
+                    <CreateListDialog />
+                  </CardActions>
+                </Card>
               </Grid>
-            ))}
-          </Grid>
-        </Paper>
-      </Container>
-    )
+              {lists.map((list) => (
+                <Grid key={list.rest_name} item sx={{ display: 'flex', padding: "1rem" }}>
+                  <ListCard  name={list.rest_name} comment={list.comment ? list.comment : ''} address={list.address ? list.address : ''} listData={list}/>
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+        </Container>
+      )
+    } else {
+      return (
+        <ListEditor listData={currentList} />
+      )
+    }
   } else {
     return (
       <Container>

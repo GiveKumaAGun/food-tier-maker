@@ -5,23 +5,38 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import { TierListInfo } from '../interfaces/User';
+import { DocumentData } from '@firebase/firestore';
+import { useSetRecoilState } from 'recoil';
+import { currentListState } from '../atoms';
 
-export default function ListCard(props: { name: string, comment: string, address: string}) {
+export default function ListCard(props: { name: string, comment: string, address: string, listData: DocumentData}) {
+  const setCurrentList = useSetRecoilState(currentListState)
+
+  React.useEffect(() => {
+    console.log(props.listData)
+  }, [])
+
+  const buttonHandler = () => {
+    setCurrentList(props.listData)
+  }
+
   return (
-    <Card color="primary" sx={{ display: "inline-block", width: "256px", backgroundColor: "primary.main", color: "primary.contrastText" }}>
+    <Card color="primary" sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', backgroundColor: "primary.main", color: "primary.contrastText", width: "256px" }}>
       <CardContent>
         <Typography variant="h5" component="div">
           {props.name}
         </Typography>
-        <Typography variant="body1">
-          {`"${props.comment}"`}
+        <Typography variant="body1" sx={{ fontStyle: "italic" }}>
+          {`${props.comment}`}
         </Typography>
         <Typography variant="body2">
-          {`Address: ${props.address}`}
+          {props.address ? `Address: ${props.address}` : null}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button color="secondary" variant="contained" size="small">View Details</Button>
+        <Button color="secondary" variant="contained" size="small" onClick={buttonHandler}>View Details</Button>
       </CardActions>
     </Card>
   );

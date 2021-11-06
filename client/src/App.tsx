@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import logo from './logo.svg';
 import AppBar from './components/AppBar'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
@@ -82,7 +83,7 @@ function App() {
   }, [])
 
   return (
-    <div style={{ backgroundColor: "#4a0202", height: "100vh"}} id="app">
+    <div style={{ height: "100vh" }} id="app">
       <Router>
         <ThemeProvider theme={theme}>
           <AppBar />
