@@ -42,7 +42,7 @@ export default function Dashboard() {
           </Paper>
           <Paper sx={{margin: "1rem", padding: "2rem" }}>
             <Typography textAlign="center" variant="h4">My lists</Typography>
-            <Grid container sm={12} alignItems="stretch" sx={{ display: 'flex', alignItems: 'stretch', justifyContent: "center" }}>
+            <Grid container alignItems="stretch" sx={{ display: 'flex', alignItems: 'stretch', justifyContent: "center" }}>
               <Grid item style={{display: 'flex', padding: '1rem'}} >
                 <Card color="primary" sx={{ display: 'flex', justifyContent: 'center', alignItems: "center", backgroundColor: "primary.main", color: "primary.contrastText", width: "256px" }}>
                   <CardActions>

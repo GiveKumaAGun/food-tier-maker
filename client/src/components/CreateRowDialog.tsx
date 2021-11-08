@@ -6,13 +6,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { collection, doc, getDoc, addDoc, DocumentReference, DocumentData, query, where, getDocs, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, addDoc, DocumentReference, DocumentData, query, where, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { db } from '../firebaseConfig'
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userListsState, userState } from '../atoms';
 
 
-export default function CreateListDialog() {
+export default function CreateRowDialog(props: { listData: DocumentData }) {
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState('')
   const [address, setAddress] = React.useState('')
@@ -48,40 +48,29 @@ export default function CreateListDialog() {
     return lists
   }
 
-  const createList = async () => {
+  const createRow = async () => {
     if (user) {
-      const docRef = await addDoc(collection(db, "tier_lists"), {
-        rest_name: name,
-        address: address,
-        comment: comment,
-        ranking_rows: [],
-        user_id: user.uid,
-      })
-      await setDoc(docRef, { id: docRef.id }, { merge: true });
+      console.log(props.listData.id)
+      const docRef = await doc(db, 'tier_lists', props.listData.id)
+      console.log(await (await getDoc(docRef)))
+      await updateDoc(docRef, "ranking_rows",  [...props.listData.ranking_rows, { row_name: name, row_items: [] }]);
       let lists = await getUserLists(user.uid) 
       setUserLists(lists)
     }
     setOpen(false);
   };
 
-  const formChange = (value: string, form: string) => {
-    switch (form) {
-    case 'name': setName(value)
-      break;
-    case 'address': setAddress(value)
-      break;
-    case 'comment': setComment(value)
-      break;
-    }
+  const formChange = (value: string) => {
+    setName(value)
   }
 
   return (
     <div>
       <Button color="secondary" variant="contained" onClick={handleClickOpen}>
-        Create new list
+        Add a row
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create New List</DialogTitle>
+        <DialogTitle>Add a row</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We
@@ -90,35 +79,17 @@ export default function CreateListDialog() {
           <TextField
             autoFocus
             margin="dense"
-            label="Restaurant Name"
+            label="Row name"
             type="text"
             fullWidth
             variant="standard"
             value={name}
-            onChange={(e) => formChange(e.target.value, 'name')}
-          />
-          <TextField
-            margin="dense"
-            label="Address"
-            type="text"
-            fullWidth
-            variant="standard"
-            value={address}
-            onChange={(e) => formChange(e.target.value, 'address')}
-          />
-          <TextField
-            margin="dense"
-            label="Comment"
-            type="text"
-            fullWidth
-            variant="standard"
-            value={comment}
-            onChange={(e) => formChange(e.target.value, 'comment')}
+            onChange={(e) => formChange(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={createList}>Create List</Button>
+          <Button onClick={createRow}>Add Row</Button>
         </DialogActions>
       </Dialog>
     </div>
