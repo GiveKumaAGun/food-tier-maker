@@ -29,7 +29,7 @@ export default function CreateRowDialog() {
   const setUserLists = useSetRecoilState(userListsState)
 
   const handleTierSelect = (event: SelectChangeEvent) => {
-    setSelectedTier(event.target.value as string);
+    setSelectedTier(event.target.value);
   };
   
 
