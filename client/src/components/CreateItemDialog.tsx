@@ -10,14 +10,28 @@ import { collection, doc, getDoc, addDoc, DocumentReference, DocumentData, query
 import { db } from '../firebaseConfig'
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { userListsState, userState, currentListState } from '../atoms';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import { TierRow } from '../interfaces/User';
+import _ from 'lodash';
+
 
 
 export default function CreateRowDialog() {
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState('')
+  const [selectedTier, setSelectedTier] = React.useState('');
+
   const user = useRecoilValue(userState)
   const [currentList, setCurrentList] = useRecoilState(currentListState)
   const setUserLists = useSetRecoilState(userListsState)
+
+  const handleTierSelect = (event: SelectChangeEvent) => {
+    setSelectedTier(event.target.value as string);
+  };
+  
 
 
   const handleClickOpen = () => {
@@ -48,16 +62,12 @@ export default function CreateRowDialog() {
     return lists
   }
 
-  const createRow = async () => {
-    if (user && currentList) {
-      const docRef = await doc(db, 'tier_lists', currentList.id)
-      await updateDoc(docRef, "ranking_rows",  [...currentList.ranking_rows, { row_name: name, row_items: [] }]);
-      const updatedList = await (await getDoc(docRef)).data()
-      let lists = await getUserLists(user.uid) 
-      if (updatedList) {
-        setCurrentList(updatedList)
-      }
-      setUserLists(lists)
+  const createItem = async () => {
+    if (currentList) {
+      const clone = _.cloneDeep(currentList.ranking_rows);
+      clone[0].row_items.push({ name: "Test", comment: "test", image: ""})
+      console.log(clone)
+      console.log(currentList.ranking_rows)
     }
     setOpen(false);
   };
@@ -69,10 +79,10 @@ export default function CreateRowDialog() {
   return (
     <div>
       <Button color="secondary" variant="contained" onClick={handleClickOpen}>
-        Add a row
+        Add an item
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add a row</DialogTitle>
+        <DialogTitle>Add an item</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We
@@ -81,17 +91,31 @@ export default function CreateRowDialog() {
           <TextField
             autoFocus
             margin="dense"
-            label="Row name"
+            label="Item name"
             type="text"
             fullWidth
             variant="standard"
             value={name}
             onChange={(e) => formChange(e.target.value)}
           />
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Select a row</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={selectedTier}
+              label="Select a tier"
+              onChange={handleTierSelect}
+            >
+              {currentList ? currentList.ranking_rows.map((row: TierRow) => (
+                <MenuItem key={row.row_name} value={row.row_name}>{row.row_name}</MenuItem>
+              )) : null}
+            </Select>
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={createRow}>Add Row</Button>
+          <Button onClick={createItem}>Add Row</Button>
         </DialogActions>
       </Dialog>
     </div>

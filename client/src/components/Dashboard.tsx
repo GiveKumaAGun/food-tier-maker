@@ -30,7 +30,6 @@ export default function Dashboard() {
 
   React.useEffect(() => {
     console.log(lists)
-    console.log(lists)
   }, [lists])
 
   if (user) {
@@ -61,7 +60,7 @@ export default function Dashboard() {
       )
     } else {
       return (
-        <ListEditor listData={currentList} />
+        <ListEditor />
       )
     }
   } else {

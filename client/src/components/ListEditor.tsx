@@ -1,49 +1,60 @@
 import { DocumentData, setDoc, doc } from '@firebase/firestore'
 import React from 'react'
 import { TierListInfo, TierRow } from '../interfaces/User'
-import { Container, Paper, Typography, Button } from '@mui/material'
-import { useSetRecoilState } from 'recoil'
+import { Container, Paper, Typography, Button, Stack, Divider } from '@mui/material'
+import { useRecoilState } from 'recoil'
 import { currentListState } from '../atoms'
 import { db } from '../firebaseConfig'
 import CreateRowDialog from './CreateRowDialog'
+import CreateItemDialog from './CreateItemDialog'
+import { styled } from '@mui/material/styles';
+import theme from '../theme'
+import ListRow from './ListRow'
 
-export default function ListEditor(props: { listData: DocumentData }) {
-  const setCurrentList = useSetRecoilState(currentListState)
-  const [list, setList] = React.useState(props.listData.ranking_rows)
+
+const Item = styled(Paper)({
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+  backgroundColor: theme.palette.secondary.main
+})
+
+export default function ListEditor() {
+  const [currentList, setCurrentList] = useRecoilState(currentListState)
 
   React.useEffect(() => {
-    console.log('hello')
-    console.log(props.listData.id)
-    console.log(props.listData)
   }, [])
-
-  const addRow = () => {
-    const temp: TierRow = {
-      row_items: [],
-      row_name: "Test Name"
-    }
-    
-    setList([...list, {}])
-  }
 
   const unsetList = () => {
     setCurrentList(null)
   }
 
   const saveChanges = () => {
-    const docRef = doc(db, "tier_lists", );
-    setDoc(docRef, { ranking_rows: list }, { merge: true });
+    if (currentList) {
+      const docRef = doc(db, "tier_lists", );
+      setDoc(docRef, { ranking_rows: currentList.ranking_rows }, { merge: true });
+    }
   }
 
-  return (
-    <Container>
-      <Button onClick={unsetList}>Back to dashboard</Button>
-      <Paper sx={{ margin: "2rem", padding: "2rem" }}>
-        <Typography variant="h3">{props.listData.rest_name}</Typography>
-        <CreateRowDialog listData={props.listData} />
-        <Button>Add Item</Button>
-        <Button onClick={saveChanges}>Save Changes</Button>
-      </Paper>
-    </Container>
-  )
+  if (currentList) {
+    return (
+      <Container>
+        <Button onClick={unsetList}>Back to dashboard</Button>
+        <Paper sx={{ margin: "2rem", padding: "2rem" }}>
+          <Typography variant="h3">{currentList.rest_name}</Typography>
+          <CreateRowDialog />
+          <CreateItemDialog />
+          <Button onClick={saveChanges}>Save Changes</Button>
+          {currentList.ranking_rows.map((row: TierRow) => {
+            return (
+              <ListRow key={row.row_name} rowData={row} />
+            )
+          })}
+        </Paper>
+      </Container>
+    )
+  } else { // error if this somehow occurs
+    return null
+  }
+  
 }
