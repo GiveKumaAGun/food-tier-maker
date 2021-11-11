@@ -7,20 +7,20 @@ import Typography from "@mui/material/Typography";
 import { DocumentData } from "@firebase/firestore";
 import { useSetRecoilState } from "recoil";
 import { currentListState } from "../atoms";
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 
 export default function ListCard(props: { name: string, comment: string, address: string, listData: DocumentData}) {
-  const setCurrentList = useSetRecoilState(currentListState)
+  const setCurrentList = useSetRecoilState(currentListState);
   const history = useHistory();
 
   React.useEffect(() => {
-    console.log("props.listData", props.listData)
-  }, [])
+    console.log("props.listData", props.listData);
+  }, []);
 
   const buttonHandler = () => {
-    setCurrentList(props.listData)
-    history.push(`/lists/${props.listData.id}`)
-  }
+    setCurrentList(props.listData);
+    history.push(`/lists/${props.listData.id}`);
+  };
 
   return (
     <Card color="primary" sx={{ display: "flex", justifyContent: "space-between", flexDirection: "column", backgroundColor: "primary.main", color: "primary.contrastText", width: "256px" }}>

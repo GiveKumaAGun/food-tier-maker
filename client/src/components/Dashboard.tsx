@@ -1,10 +1,10 @@
-import React from "react"
-import { Container, Paper, Typography, Grid, Card, CardActions } from "@mui/material"
-import { useRecoilValue } from "recoil"
-import { userListsState, userState, currentListState } from "../atoms"
+import React from "react";
+import { Container, Paper, Typography, Grid, Card, CardActions } from "@mui/material";
+import { useRecoilValue } from "recoil";
+import { userListsState, userState, currentListState } from "../atoms";
 import ListCard from "./ListCard";
-import CreateListDialog from "./CreateListDialog"
-import { useHistory } from "react-router-dom"
+import CreateListDialog from "./CreateListDialog";
+import { useHistory } from "react-router-dom";
 
 type Props = {
   lat: number,
@@ -13,16 +13,16 @@ type Props = {
 };
 
 export default function Dashboard() {
-  const user = useRecoilValue(userState)
-  const lists = useRecoilValue(userListsState)
-  const currentList = useRecoilValue(currentListState)
-  const history = useHistory()
+  const user = useRecoilValue(userState);
+  const lists = useRecoilValue(userListsState);
+  const currentList = useRecoilValue(currentListState);
+  const history = useHistory();
 
   React.useEffect(() => {
     if (!user) {
-      history.push("/")
+      history.push("/");
     }
-  }, [])
+  }, []);
 
 
   if (user) {
@@ -49,9 +49,9 @@ export default function Dashboard() {
           </Grid>
         </Paper>
       </Container>
-    )
+    );
   } else {
-    return null
+    return null;
   }
   
   

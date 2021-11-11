@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig"
+import { db } from "../firebaseConfig";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import { userListsState, userState, currentListState } from "../atoms";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -21,13 +21,13 @@ import { getUserLists } from "../util";
 
 export default function CreateItemDialog() {
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState("")
-  const [comment, setComment] = React.useState("")
+  const [name, setName] = React.useState("");
+  const [comment, setComment] = React.useState("");
   const [selectedTier, setSelectedTier] = React.useState("");
 
-  const user = useRecoilValue(userState)
-  const [currentList, setCurrentList] = useRecoilState(currentListState)
-  const setUserLists = useSetRecoilState(userListsState)
+  const user = useRecoilValue(userState);
+  const [currentList, setCurrentList] = useRecoilState(currentListState);
+  const setUserLists = useSetRecoilState(userListsState);
 
   const handleTierSelect = (event: SelectChangeEvent) => {
     setSelectedTier(event.target.value);
@@ -44,27 +44,27 @@ export default function CreateItemDialog() {
   const createItem = async () => {
     if (user && currentList) {
       const clone = _.cloneDeep(currentList.ranking_rows);
-      _.find(clone, {row_name: selectedTier}).row_items.push({ name: name, comment: comment, image: ""})
+      _.find(clone, {row_name: selectedTier}).row_items.push({ name: name, comment: comment, image: ""});
 
-      const docRef = await doc(db, "tier_lists", currentList.id)
+      const docRef = await doc(db, "tier_lists", currentList.id);
       await updateDoc(docRef, "ranking_rows",  clone);
-      const updatedList = await (await getDoc(docRef)).data()
-      let lists = await getUserLists(user.uid) 
+      const updatedList = await (await getDoc(docRef)).data();
+      let lists = await getUserLists(user.uid); 
       if (updatedList) {
-        setCurrentList(updatedList)
+        setCurrentList(updatedList);
       }
-      setUserLists(lists)
+      setUserLists(lists);
     }
     setOpen(false);
   };
 
   const formChangeName = (value: string) => {
-    setName(value)
-  }
+    setName(value);
+  };
 
   const formChangeComment = (value: string) => {
-    setComment(value)
-  }
+    setComment(value);
+  };
 
   return (
     <span>

@@ -1,11 +1,11 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper"
+import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "firebase/auth";
-import { provider, auth, db } from "../firebaseConfig"
+import { provider, auth, db } from "../firebaseConfig";
 import { useHistory } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { userState, userListsState } from "../atoms";
@@ -14,9 +14,9 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 
 
 export default function Login() {
-  const history = useHistory()
-  const [user, setUser] = useRecoilState(userState)
-  const setUserLists = useSetRecoilState(userListsState)
+  const history = useHistory();
+  const [user, setUser] = useRecoilState(userState);
+  const setUserLists = useSetRecoilState(userListsState);
 
 
   const getUserLists = async (uid: string) => {
@@ -24,7 +24,7 @@ export default function Login() {
     const querySnapshot = await getDocs(q);
     const lists = querySnapshot.docs.map((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      const data = doc.data()
+      const data = doc.data();
       return {
         address: data.address,
         comment: data.comment,
@@ -34,10 +34,10 @@ export default function Login() {
         user_id: data.user_id,
         geopoint: data.geopoint,
         id: data.id,
-      }
+      };
     });
-    return lists
-  }
+    return lists;
+  };
 
   React.useEffect(() => {
     getRedirectResult(auth)
@@ -50,35 +50,35 @@ export default function Login() {
           }
           // The signed-in user info.
           const user = result.user;
-          history.push("/dashboard")
+          history.push("/dashboard");
         }
 
       }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
-        console.log(errorCode)
+        console.log(errorCode);
         const errorMessage = error.message;
-        console.log(errorMessage)
+        console.log(errorMessage);
         // The email of the user's account used.
         const email = error.email;
-        console.log(email)
+        console.log(email);
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(credential)
+        console.log(credential);
         // ...
       });
 
-  }, [])
+  }, []);
 
   React.useEffect(() => {
     if (user) {
-      history.push("/dashboard")
+      history.push("/dashboard");
     }
-  }, [])
+  }, []);
   
   const buttonHandler = () => {
     signInWithRedirect(auth, provider);
-  }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -96,12 +96,12 @@ export default function Login() {
       uid: "guest",
       displayName: "Guest",
       email: ""
-    })
-    console.log(user)
-    let lists = await getUserLists("guest") 
-    setUserLists(lists)
-    history.push("/dashboard") 
-  }
+    });
+    console.log(user);
+    let lists = await getUserLists("guest"); 
+    setUserLists(lists);
+    history.push("/dashboard"); 
+  };
   
   return (
     <Container component="main" maxWidth="xs">
@@ -115,5 +115,5 @@ export default function Login() {
         </Box>
       </Paper>
     </Container>
-  )
+  );
 }

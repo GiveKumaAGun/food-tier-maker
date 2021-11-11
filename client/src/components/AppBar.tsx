@@ -5,26 +5,26 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { signOut } from "@firebase/auth";
-import { auth } from "../firebaseConfig"
+import { auth } from "../firebaseConfig";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { userState, userListsState, currentListState } from "../atoms";
 import { useHistory } from "react-router-dom";
 
 export default function ButtonAppBar() {
-  const [user, setUser] = useRecoilState(userState)
-  const setUserLists = useSetRecoilState(userListsState)
-  const setCurrentList = useSetRecoilState(currentListState)
-  const history = useHistory()
+  const [user, setUser] = useRecoilState(userState);
+  const setUserLists = useSetRecoilState(userListsState);
+  const setCurrentList = useSetRecoilState(currentListState);
+  const history = useHistory();
 
   const signOutHandler = () => {
     if (auth) {
       signOut(auth);
       setUser(null);
       setUserLists([]);
-      setCurrentList(null)
-      history.push("/")
+      setCurrentList(null);
+      history.push("/");
     }
-  }
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>

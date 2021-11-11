@@ -1,8 +1,8 @@
-import React from "react"
-import { Box, Typography, Grid } from "@mui/material"
-import { TierRow } from "../interfaces/TierList"
+import React from "react";
+import { Box, Typography, Grid } from "@mui/material";
+import { TierRow } from "../interfaces/TierList";
 import { styled } from "@mui/material/styles";
-import theme from "../theme"
+import theme from "../theme";
 import Item from "./Item";
 
 const Row = styled(Grid)({
@@ -12,7 +12,7 @@ const Row = styled(Grid)({
   alignItems: "center",
   // flexWrap: "wrap",
   backgroundColor: "#cccccc"
-})
+});
 
 const RowName = styled(Grid)({
   padding: theme.spacing(1),
@@ -22,7 +22,7 @@ const RowName = styled(Grid)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-})
+});
 
 const ItemContainer = styled(Box)({
   margin: theme.spacing(1),
@@ -31,7 +31,7 @@ const ItemContainer = styled(Box)({
   flexDirection: "row",
   alignItems: "center",
   flexWrap: "wrap",
-})
+});
 
 export default function ListRow(props: { rowData: TierRow}) {
   return (
@@ -45,5 +45,5 @@ export default function ListRow(props: { rowData: TierRow}) {
         ))}
       </ItemContainer>
     </Row>
-  )
+  );
 }
