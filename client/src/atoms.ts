@@ -14,7 +14,7 @@ export const userDataState = atom<DocumentData | null>({
 });
 
 export const userListsState = atom<DocumentData[]>({
-  key: "userData",
+  key: "userListsState",
   default: []
 });
 

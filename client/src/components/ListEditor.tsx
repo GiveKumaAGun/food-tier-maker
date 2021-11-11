@@ -18,13 +18,6 @@ export default function ListEditor() {
     setCurrentList(null)
   }
 
-  const saveChanges = () => {
-    if (currentList) {
-      // const docRef = doc(db, "tier_lists", );
-      // setDoc(docRef, { ranking_rows: currentList.ranking_rows }, { merge: true });
-    }
-  }
-
   if (currentList) {
     return (
       <Container>
