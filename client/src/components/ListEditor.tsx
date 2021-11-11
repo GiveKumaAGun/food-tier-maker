@@ -35,12 +35,12 @@ export default function ListEditor() {
           <CreateItemDialog />
           <Stack 
             sx={{ marginBlock: 2 }}
-            spacing={1} >
-          {currentList.ranking_rows.map((row: TierRow) => {
-            return (
-              <ListRow key={row.row_name} rowData={row} />
-            )
-          })}
+          >
+            {currentList.ranking_rows.map((row: TierRow) => {
+              return (
+                <ListRow key={row.row_name} rowData={row} />
+              )
+            })}
           </Stack>
         </Paper>
       </Container>
