@@ -9,16 +9,16 @@ const Row = styled(Box)({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
+  flexWrap: "wrap",
 })
 
 const RowName = styled(Box)({
-  margin: "0.5rem",
+  margin: theme.spacing(1),
   height: "100px",
   width: "100px",
   minWidth: "100px",
   padding: theme.spacing(1),
   textAlign: 'left',
-  color: theme.palette.text.secondary,
   backgroundColor: theme.palette.secondary.main,
   display: "flex",
   justifyContent: "center",
@@ -26,7 +26,7 @@ const RowName = styled(Box)({
 })
 
 const RowItem = styled(Button)({
-  margin: "0.5rem",
+  margin: theme.spacing(1),
   height: "100px",
   width: "100px",
   minWidth: "100px",
@@ -44,7 +44,7 @@ const RowItem = styled(Button)({
 })
 
 const ItemContainer = styled(Box)({
-  margin: "0.5rem",
+  margin: theme.spacing(1),
   padding: theme.spacing(1),
   display: "flex",
   flexDirection: "row",
@@ -58,11 +58,9 @@ export default function ListRow(props: { rowData: TierRow}) {
         <RowName>
           <Typography variant="h5">{props.rowData.row_name}</Typography>
         </RowName>
-        <ItemContainer >
-          {props.rowData.row_items.map((item) => (
-            <RowItem key={item.name}>{item.comment ? item.name + "*" : item.name}</RowItem>
-          ))}
-        </ItemContainer>
+        {props.rowData.row_items.map((item) => (
+          <RowItem key={item.name}>{item.comment ? item.name + "*" : item.name}</RowItem>
+        ))}
       </Row>
   )
 }

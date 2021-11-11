@@ -68,7 +68,7 @@ export default function CreateRowDialog() {
 
   return (
     <span>
-      <Button color="secondary" variant="contained" onClick={handleClickOpen}>
+      <Button color="secondary" variant="contained" onClick={handleClickOpen} sx={{ m: 0.5 }}>
         Add a row
       </Button>
       <Dialog open={open} onClose={handleClose}>

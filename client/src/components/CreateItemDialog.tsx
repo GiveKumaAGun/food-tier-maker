@@ -88,7 +88,7 @@ export default function CreateItemDialog() {
 
   return (
     <span>
-      <Button color="secondary" variant="contained" onClick={handleClickOpen}>
+      <Button color="secondary" variant="contained" onClick={handleClickOpen} sx={{ m: 0.5 }}>
         Add an item
       </Button>
       <Dialog open={open} onClose={handleClose}>
