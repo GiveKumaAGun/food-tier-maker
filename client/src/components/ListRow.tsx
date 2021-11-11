@@ -1,5 +1,5 @@
 import React from "react"
-import { Stack, Divider, Paper, Box, Button, Typography, Grid } from "@mui/material"
+import { Box, Typography, Grid } from "@mui/material"
 import { TierRow } from "../interfaces/TierList"
 import { styled } from "@mui/material/styles";
 import theme from "../theme"

@@ -1,4 +1,4 @@
-import { collection, query, where, getDocs, doc, updateDoc} from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebaseConfig"
 
 export const getUserLists = async (uid: string) => {

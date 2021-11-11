@@ -4,9 +4,8 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { collection, doc, getDoc, addDoc, DocumentReference, DocumentData, query, where, getDocs, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig"
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import { userListsState, userState, currentListState } from "../atoms";

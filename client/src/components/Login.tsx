@@ -1,24 +1,15 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Paper from "@mui/material/Paper"
-import { Link } from "react-router-dom";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "firebase/auth";
+import { GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "firebase/auth";
 import { provider, auth, db } from "../firebaseConfig"
-import { GoogleLoginButton } from "react-social-login-buttons";
 import { useHistory } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { userState, userListsState } from "../atoms";
-import { collection, doc, getDoc, addDoc, DocumentReference, DocumentData, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 
 

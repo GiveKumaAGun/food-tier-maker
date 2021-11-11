@@ -1,6 +1,6 @@
-import { DocumentData, setDoc, doc, getDoc } from "@firebase/firestore"
+import { doc, getDoc } from "@firebase/firestore"
 import React from "react"
-import { TierListInfo, TierRow } from "../interfaces/TierList"
+import { TierRow } from "../interfaces/TierList"
 import { Container, Paper, Typography, Button, Stack, Divider } from "@mui/material"
 import { useRecoilState } from "recoil"
 import { currentListState } from "../atoms"

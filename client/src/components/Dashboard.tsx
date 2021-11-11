@@ -3,9 +3,7 @@ import { Container, Paper, Typography, Grid, Card, CardActions } from "@mui/mate
 import { useRecoilValue } from "recoil"
 import { userListsState, userState, currentListState } from "../atoms"
 import ListCard from "./ListCard";
-import Login from "./Login"
 import CreateListDialog from "./CreateListDialog"
-import ListEditor from "./ListEditor"
 import { useHistory } from "react-router-dom"
 
 type Props = {

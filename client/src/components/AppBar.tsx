@@ -4,11 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom";
-import axios from "axios"
-import { Auth, getAuth, signOut } from "@firebase/auth";
+import { signOut } from "@firebase/auth";
 import { auth } from "../firebaseConfig"
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { userState, userListsState, currentListState } from "../atoms";

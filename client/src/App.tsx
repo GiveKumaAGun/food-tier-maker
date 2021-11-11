@@ -3,18 +3,15 @@ import "./App.css";
 import logo from "./logo.svg";
 import AppBar from "./components/AppBar"
 import { BrowserRouter as Router, Route } from "react-router-dom"
-import { Container, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import theme from "./theme"
 import Dashboard from "./components/Dashboard"
-import SignUp from "./components/SignUp"
 import Login from "./components/Login"
 import { onAuthStateChanged } from "firebase/auth"
-import { auth, db, googleApiKey } from "./firebaseConfig"
+import { auth, db } from "./firebaseConfig"
 import { useRecoilState } from "recoil";
 import { userState, userDataState, userListsState } from "./atoms"
-import { collection, doc, getDoc, setDoc, DocumentReference, DocumentData, query, where, getDocs } from "firebase/firestore";
-import { User, TierListInfo } from "./interfaces/User"
-import axios from "axios";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import ListEditor from "./components/ListEditor";
 import { getUserLists } from "./util/index"
 
