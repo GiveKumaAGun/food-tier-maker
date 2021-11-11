@@ -1,12 +1,12 @@
-import { collection, query, where, getDocs, doc, updateDoc} from "firebase/firestore";
-import { db } from '../firebaseConfig'
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 export const getUserLists = async (uid: string) => {
   const q = query(collection(db, "tier_lists"), where("user_id", "==", uid));
   const querySnapshot = await getDocs(q);
   const lists = querySnapshot.docs.map((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    const data = doc.data()
+    const data = doc.data();
     return {
       address: data.address,
       comment: data.comment,
@@ -16,7 +16,7 @@ export const getUserLists = async (uid: string) => {
       user_id: data.user_id,
       geopoint: data.geopoint,
       id: data.id
-    }
+    };
   });
-  return lists
-}
+  return lists;
+};

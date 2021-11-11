@@ -1,24 +1,23 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { collection, doc, getDoc, addDoc, DocumentReference, DocumentData, query, where, getDocs, setDoc, updateDoc } from "firebase/firestore";
-import { db } from '../firebaseConfig'
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
-import { userListsState, userState, currentListState } from '../atoms';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import { TierRow, TierItem } from '../interfaces/User';
-import { getUserLists } from '../util';
-import _ from 'lodash';
-import { styled } from '@mui/system';
-import theme from '../theme';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
+import { userListsState, userState, currentListState } from "../atoms";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import { TierRow, TierItem } from "../interfaces/TierList";
+import { getUserLists } from "../util";
+import _ from "lodash";
+import { styled } from "@mui/system";
+import theme from "../theme";
 
 const RowItem = styled(Button)({
   margin: theme.spacing(1),
@@ -26,7 +25,7 @@ const RowItem = styled(Button)({
   width: "100px",
   minWidth: "100px",
   padding: theme.spacing(1),
-  textAlign: 'center',
+  textAlign: "center",
   color: theme.palette.primary.contrastText,
   backgroundColor: theme.palette.primary.main,
   display: "flex",
@@ -36,17 +35,17 @@ const RowItem = styled(Button)({
   ":hover": {
     backgroundColor: theme.palette.primary.dark
   }
-})
+});
 
 export default function Item(props: { item: TierItem, tier: TierRow }) {
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState(props.item.name)
-  const [comment, setComment] = React.useState(props.item.comment)
+  const [name, setName] = React.useState(props.item.name);
+  const [comment, setComment] = React.useState(props.item.comment);
   const [tier, setTier] = React.useState(props.tier.row_name);
 
-  const user = useRecoilValue(userState)
-  const [currentList, setCurrentList] = useRecoilState(currentListState)
-  const setUserLists = useSetRecoilState(userListsState)
+  const user = useRecoilValue(userState);
+  const [currentList, setCurrentList] = useRecoilState(currentListState);
+  const setUserLists = useSetRecoilState(userListsState);
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -58,13 +57,13 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
 
   const formChangeName = (value: string) => {
     if (value.length < 42) {
-      setName(value)
+      setName(value);
     }
-  }
+  };
 
   const formChangeComment = (value: string) => {
-    setComment(value)
-  }
+    setComment(value);
+  };
 
   const formChangeTier = (event: SelectChangeEvent) => {
     setTier(event.target.value);
@@ -73,20 +72,20 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
   const saveChanges = async () => {
     if (user && currentList) {
       const clone = _.cloneDeep(currentList.ranking_rows);
-      const rowIndex = _.findIndex(clone, {row_name: props.tier.row_name})
-      const itemIndex = _.findIndex(clone[rowIndex].row_items, { name: props.item.name })
-      const newRowIndex = _.findIndex(clone, {row_name: tier})
-      clone[rowIndex].row_items.splice(itemIndex, 1)
-      clone[newRowIndex].row_items.push({ name: name, comment: comment, image: ""})
+      const rowIndex = _.findIndex(clone, {row_name: props.tier.row_name});
+      const itemIndex = _.findIndex(clone[rowIndex].row_items, { name: props.item.name });
+      const newRowIndex = _.findIndex(clone, {row_name: tier});
+      clone[rowIndex].row_items.splice(itemIndex, 1);
+      clone[newRowIndex].row_items.push({ name: name, comment: comment, image: ""});
       
-      const docRef = await doc(db, 'tier_lists', currentList.id)
+      const docRef = await doc(db, "tier_lists", currentList.id);
       await updateDoc(docRef, "ranking_rows",  clone);
-      const updatedList = await (await getDoc(docRef)).data()
-      let lists = await getUserLists(user.uid) 
+      const updatedList = await (await getDoc(docRef)).data();
+      let lists = await getUserLists(user.uid); 
       if (updatedList) {
-        setCurrentList(updatedList)
+        setCurrentList(updatedList);
       }
-      setUserLists(lists)
+      setUserLists(lists);
     }
     setOpen(false);
   };

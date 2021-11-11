@@ -1,38 +1,30 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
-import axios from 'axios'
-import { Auth, getAuth, signOut } from '@firebase/auth';
-import { auth } from '../firebaseConfig'
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userState, userListsState, currentListState } from '../atoms';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { signOut } from "@firebase/auth";
+import { auth } from "../firebaseConfig";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { userState, userListsState, currentListState } from "../atoms";
+import { useHistory } from "react-router-dom";
 
 export default function ButtonAppBar() {
-  const [user, setUser] = useRecoilState(userState)
-  const setUserLists = useSetRecoilState(userListsState)
-  const setCurrentList = useSetRecoilState(currentListState)
-
-
-  const test = async () => {
-    const response = await axios.get('/api/hello')
-    console.log(response)
-  }
+  const [user, setUser] = useRecoilState(userState);
+  const setUserLists = useSetRecoilState(userListsState);
+  const setCurrentList = useSetRecoilState(currentListState);
+  const history = useHistory();
 
   const signOutHandler = () => {
-    console.log(auth)
     if (auth) {
       signOut(auth);
       setUser(null);
       setUserLists([]);
-      setCurrentList(null)
+      setCurrentList(null);
+      history.push("/");
     }
-  }
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
