@@ -11,12 +11,12 @@ import axios from 'axios'
 import { Auth, getAuth, signOut } from '@firebase/auth';
 import { auth } from '../firebaseConfig'
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userState } from '../atoms';
-import { userListsState } from '../atoms';
+import { userState, userListsState, currentListState } from '../atoms';
 
 export default function ButtonAppBar() {
   const [user, setUser] = useRecoilState(userState)
   const setUserLists = useSetRecoilState(userListsState)
+  const setCurrentList = useSetRecoilState(currentListState)
 
 
   const test = async () => {
@@ -30,6 +30,7 @@ export default function ButtonAppBar() {
       signOut(auth);
       setUser(null);
       setUserLists([]);
+      setCurrentList(null)
     }
   }
 

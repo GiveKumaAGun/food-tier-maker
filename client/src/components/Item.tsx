@@ -14,25 +14,39 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import { TierRow } from '../interfaces/User';
-import _ from 'lodash';
+import { TierRow, TierItem } from '../interfaces/User';
 import { getUserLists } from '../util';
+import _ from 'lodash';
+import { styled } from '@mui/system';
+import theme from '../theme';
 
+const RowItem = styled(Button)({
+  margin: theme.spacing(1),
+  height: "100px",
+  width: "100px",
+  minWidth: "100px",
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.primary.contrastText,
+  backgroundColor: theme.palette.primary.main,
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  textTransform: "none",
+  ":hover": {
+    backgroundColor: theme.palette.primary.dark
+  }
+})
 
-
-export default function CreateItemDialog() {
+export default function Item(props: { item: TierItem, tier: TierRow }) {
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState('')
-  const [comment, setComment] = React.useState('')
-  const [selectedTier, setSelectedTier] = React.useState('');
+  const [name, setName] = React.useState(props.item.name)
+  const [comment, setComment] = React.useState(props.item.comment)
+  const [tier, setTier] = React.useState(props.tier.row_name);
 
   const user = useRecoilValue(userState)
   const [currentList, setCurrentList] = useRecoilState(currentListState)
   const setUserLists = useSetRecoilState(userListsState)
-
-  const handleTierSelect = (event: SelectChangeEvent) => {
-    setSelectedTier(event.target.value);
-  };
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -42,11 +56,29 @@ export default function CreateItemDialog() {
     setOpen(false);
   };
 
-  const createItem = async () => {
+  const formChangeName = (value: string) => {
+    if (value.length < 42) {
+      setName(value)
+    }
+  }
+
+  const formChangeComment = (value: string) => {
+    setComment(value)
+  }
+
+  const formChangeTier = (event: SelectChangeEvent) => {
+    setTier(event.target.value);
+  };
+
+  const saveChanges = async () => {
     if (user && currentList) {
       const clone = _.cloneDeep(currentList.ranking_rows);
-      _.find(clone, {row_name: selectedTier}).row_items.push({ name: name, comment: comment, image: ""})
-
+      const rowIndex = _.findIndex(clone, {row_name: props.tier.row_name})
+      const itemIndex = _.findIndex(clone[rowIndex].row_items, { name: props.item.name })
+      const newRowIndex = _.findIndex(clone, {row_name: tier})
+      clone[rowIndex].row_items.splice(itemIndex, 1)
+      clone[newRowIndex].row_items.push({ name: name, comment: comment, image: ""})
+      
       const docRef = await doc(db, 'tier_lists', currentList.id)
       await updateDoc(docRef, "ranking_rows",  clone);
       const updatedList = await (await getDoc(docRef)).data()
@@ -59,21 +91,13 @@ export default function CreateItemDialog() {
     setOpen(false);
   };
 
-  const formChangeName = (value: string) => {
-    setName(value)
-  }
-
-  const formChangeComment = (value: string) => {
-    setComment(value)
-  }
-
   return (
     <span>
-      <Button color="secondary" variant="contained" onClick={handleClickOpen} sx={{ m: 0.5 }}>
-        Add an item
-      </Button>
+      <RowItem color="secondary" variant="contained" onClick={handleClickOpen} sx={{ m: 0.5 }}>
+        {props.item.comment ? props.item.name + "*" : props.item.name}
+      </RowItem>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add an item</DialogTitle>
+        <DialogTitle>Edit Item Details</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We
@@ -87,6 +111,7 @@ export default function CreateItemDialog() {
             fullWidth
             variant="standard"
             value={name}
+            sx={{ mb: 2 }}
             onChange={(e) => formChangeName(e.target.value)}
           />
           <TextField
@@ -96,6 +121,7 @@ export default function CreateItemDialog() {
             fullWidth
             variant="standard"
             value={comment}
+            sx={{ mb: 4 }}
             onChange={(e) => formChangeComment(e.target.value)}
           />
           <FormControl fullWidth>
@@ -103,9 +129,9 @@ export default function CreateItemDialog() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={selectedTier}
+              value={tier}
               label="Select a tier"
-              onChange={handleTierSelect}
+              onChange={formChangeTier}
             >
               {currentList ? currentList.ranking_rows.map((row: TierRow) => (
                 <MenuItem key={row.row_name} value={row.row_name}>{row.row_name}</MenuItem>
@@ -114,8 +140,8 @@ export default function CreateItemDialog() {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={createItem}>Add Row</Button>
+          <Button variant="outlined" onClick={handleClose}>Cancel</Button>
+          <Button variant="contained" onClick={saveChanges}>Save Changes</Button>
         </DialogActions>
       </Dialog>
     </span>

@@ -3,6 +3,7 @@ import { Stack, Divider, Paper, Box, Button, Typography, Grid } from '@mui/mater
 import { TierRow } from '../interfaces/User'
 import { styled } from '@mui/material/styles';
 import theme from '../theme'
+import Item from './Item';
 
 const Row = styled(Grid)({
   textAlign: 'left',
@@ -10,7 +11,7 @@ const Row = styled(Grid)({
   flexDirection: "row",
   alignItems: "center",
   // flexWrap: "wrap",
-  backgroundColor: theme.palette.secondary.main
+  backgroundColor: "#cccccc"
 })
 
 const RowName = styled(Grid)({
@@ -21,24 +22,6 @@ const RowName = styled(Grid)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-})
-
-const RowItem = styled(Button)({
-  margin: theme.spacing(1),
-  height: "100px",
-  width: "100px",
-  minWidth: "100px",
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.primary.contrastText,
-  backgroundColor: theme.palette.primary.main,
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  textTransform: "none",
-  ":hover": {
-    backgroundColor: theme.palette.primary.dark
-  }
 })
 
 const ItemContainer = styled(Box)({
@@ -58,7 +41,7 @@ export default function ListRow(props: { rowData: TierRow}) {
       </RowName>
       <ItemContainer>
         {props.rowData.row_items.map((item) => (
-          <RowItem key={item.name}>{item.comment ? item.name + "*" : item.name}</RowItem>
+          <Item key={item.name} item={item} tier={props.rowData}/>
         ))}
       </ItemContainer>
     </Row>
