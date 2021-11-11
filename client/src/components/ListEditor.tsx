@@ -1,15 +1,15 @@
-import { DocumentData, setDoc, doc, getDoc } from '@firebase/firestore'
-import React from 'react'
-import { TierListInfo, TierRow } from '../interfaces/User'
-import { Container, Paper, Typography, Button, Stack, Divider } from '@mui/material'
-import { useRecoilState } from 'recoil'
-import { currentListState } from '../atoms'
-import CreateRowDialog from './CreateRowDialog'
-import CreateItemDialog from './CreateItemDialog'
-import ListRow from './ListRow'
-import { useParams } from 'react-router-dom'
-import { db } from '../firebaseConfig'
-import { useHistory } from 'react-router-dom'
+import { DocumentData, setDoc, doc, getDoc } from "@firebase/firestore"
+import React from "react"
+import { TierListInfo, TierRow } from "../interfaces/TierList"
+import { Container, Paper, Typography, Button, Stack, Divider } from "@mui/material"
+import { useRecoilState } from "recoil"
+import { currentListState } from "../atoms"
+import CreateRowDialog from "./CreateRowDialog"
+import CreateItemDialog from "./CreateItemDialog"
+import ListRow from "./ListRow"
+import { useParams } from "react-router-dom"
+import { db } from "../firebaseConfig"
+import { useHistory } from "react-router-dom"
 
 
 export default function ListEditor() {
@@ -18,7 +18,7 @@ export default function ListEditor() {
   const history = useHistory()
 
   const fetchListData = async () => {
-    const docRef = await doc(db, 'tier_lists', list_id);
+    const docRef = await doc(db, "tier_lists", list_id);
     const docSnap = await getDoc(docRef);
     if (docSnap) {
       const listData = await docSnap.data();

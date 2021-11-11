@@ -1,20 +1,20 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { collection, doc, getDoc, addDoc, DocumentReference, DocumentData, query, where, getDocs, setDoc, updateDoc } from "firebase/firestore";
-import { db } from '../firebaseConfig'
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
-import { userListsState, userState, currentListState } from '../atoms';
+import { db } from "../firebaseConfig"
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
+import { userListsState, userState, currentListState } from "../atoms";
 
 
 export default function CreateRowDialog() {
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState('')
+  const [name, setName] = React.useState("")
   const user = useRecoilValue(userState)
   const [currentList, setCurrentList] = useRecoilState(currentListState)
   const setUserLists = useSetRecoilState(userListsState)
@@ -50,7 +50,7 @@ export default function CreateRowDialog() {
 
   const createRow = async () => {
     if (user && currentList) {
-      const docRef = await doc(db, 'tier_lists', currentList.id)
+      const docRef = await doc(db, "tier_lists", currentList.id)
       await updateDoc(docRef, "ranking_rows",  [...currentList.ranking_rows, { row_name: name, row_items: [] }]);
       const updatedList = await (await getDoc(docRef)).data()
       let lists = await getUserLists(user.uid) 

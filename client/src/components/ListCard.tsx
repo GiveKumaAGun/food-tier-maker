@@ -1,23 +1,23 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import { TierListInfo } from '../interfaces/User';
-import { DocumentData } from '@firebase/firestore';
-import { useSetRecoilState } from 'recoil';
-import { currentListState } from '../atoms';
-import { useHistory } from 'react-router-dom'
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import { TierListInfo } from "../interfaces/TierList";
+import { DocumentData } from "@firebase/firestore";
+import { useSetRecoilState } from "recoil";
+import { currentListState } from "../atoms";
+import { useHistory } from "react-router-dom"
 
 export default function ListCard(props: { name: string, comment: string, address: string, listData: DocumentData}) {
   const setCurrentList = useSetRecoilState(currentListState)
   const history = useHistory();
 
   React.useEffect(() => {
-    console.log('props.listData', props.listData)
+    console.log("props.listData", props.listData)
   }, [])
 
   const buttonHandler = () => {
@@ -26,7 +26,7 @@ export default function ListCard(props: { name: string, comment: string, address
   }
 
   return (
-    <Card color="primary" sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', backgroundColor: "primary.main", color: "primary.contrastText", width: "256px" }}>
+    <Card color="primary" sx={{ display: "flex", justifyContent: "space-between", flexDirection: "column", backgroundColor: "primary.main", color: "primary.contrastText", width: "256px" }}>
       <CardContent>
         <Typography variant="h5" component="div">
           {props.name}

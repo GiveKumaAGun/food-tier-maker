@@ -1,24 +1,24 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { collection, doc, getDoc, addDoc, DocumentReference, DocumentData, query, where, getDocs, setDoc, updateDoc } from "firebase/firestore";
-import { db } from '../firebaseConfig'
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
-import { userListsState, userState, currentListState } from '../atoms';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import { TierRow, TierItem } from '../interfaces/User';
-import { getUserLists } from '../util';
-import _ from 'lodash';
-import { styled } from '@mui/system';
-import theme from '../theme';
+import { db } from "../firebaseConfig"
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
+import { userListsState, userState, currentListState } from "../atoms";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import { TierRow, TierItem } from "../interfaces/TierList";
+import { getUserLists } from "../util";
+import _ from "lodash";
+import { styled } from "@mui/system";
+import theme from "../theme";
 
 const RowItem = styled(Button)({
   margin: theme.spacing(1),
@@ -26,7 +26,7 @@ const RowItem = styled(Button)({
   width: "100px",
   minWidth: "100px",
   padding: theme.spacing(1),
-  textAlign: 'center',
+  textAlign: "center",
   color: theme.palette.primary.contrastText,
   backgroundColor: theme.palette.primary.main,
   display: "flex",
@@ -79,7 +79,7 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
       clone[rowIndex].row_items.splice(itemIndex, 1)
       clone[newRowIndex].row_items.push({ name: name, comment: comment, image: ""})
       
-      const docRef = await doc(db, 'tier_lists', currentList.id)
+      const docRef = await doc(db, "tier_lists", currentList.id)
       await updateDoc(docRef, "ranking_rows",  clone);
       const updatedList = await (await getDoc(docRef)).data()
       let lists = await getUserLists(user.uid) 

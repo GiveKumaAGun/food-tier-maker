@@ -1,30 +1,30 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { collection, doc, getDoc, addDoc, DocumentReference, DocumentData, query, where, getDocs, setDoc, updateDoc } from "firebase/firestore";
-import { db } from '../firebaseConfig'
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
-import { userListsState, userState, currentListState } from '../atoms';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import { TierRow } from '../interfaces/User';
-import _ from 'lodash';
-import { getUserLists } from '../util';
+import { db } from "../firebaseConfig"
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
+import { userListsState, userState, currentListState } from "../atoms";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import { TierRow } from "../interfaces/TierList";
+import _ from "lodash";
+import { getUserLists } from "../util";
 
 
 
 export default function CreateItemDialog() {
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState('')
-  const [comment, setComment] = React.useState('')
-  const [selectedTier, setSelectedTier] = React.useState('');
+  const [name, setName] = React.useState("")
+  const [comment, setComment] = React.useState("")
+  const [selectedTier, setSelectedTier] = React.useState("");
 
   const user = useRecoilValue(userState)
   const [currentList, setCurrentList] = useRecoilState(currentListState)
@@ -47,7 +47,7 @@ export default function CreateItemDialog() {
       const clone = _.cloneDeep(currentList.ranking_rows);
       _.find(clone, {row_name: selectedTier}).row_items.push({ name: name, comment: comment, image: ""})
 
-      const docRef = await doc(db, 'tier_lists', currentList.id)
+      const docRef = await doc(db, "tier_lists", currentList.id)
       await updateDoc(docRef, "ranking_rows",  clone);
       const updatedList = await (await getDoc(docRef)).data()
       let lists = await getUserLists(user.uid) 

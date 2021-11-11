@@ -1,5 +1,5 @@
 import { collection, query, where, getDocs, doc, updateDoc} from "firebase/firestore";
-import { db } from '../firebaseConfig'
+import { db } from "../firebaseConfig"
 
 export const getUserLists = async (uid: string) => {
   const q = query(collection(db, "tier_lists"), where("user_id", "==", uid));
