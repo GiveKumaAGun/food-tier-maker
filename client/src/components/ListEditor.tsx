@@ -31,8 +31,8 @@ export default function ListEditor() {
 
   const saveChanges = () => {
     if (currentList) {
-      const docRef = doc(db, "tier_lists", );
-      setDoc(docRef, { ranking_rows: currentList.ranking_rows }, { merge: true });
+      // const docRef = doc(db, "tier_lists", );
+      // setDoc(docRef, { ranking_rows: currentList.ranking_rows }, { merge: true });
     }
   }
 
@@ -44,12 +44,17 @@ export default function ListEditor() {
           <Typography variant="h3">{currentList.rest_name}</Typography>
           <CreateRowDialog />
           <CreateItemDialog />
-          <Button onClick={saveChanges}>Save Changes</Button>
+          <Paper sx={{padding: "1rem", backgroundColor: "#555555"}}>
+          <Stack 
+            divider={<Divider orientation="horizontal" flexItem />}
+            spacing={2} >
           {currentList.ranking_rows.map((row: TierRow) => {
             return (
               <ListRow key={row.row_name} rowData={row} />
             )
           })}
+          </Stack>
+          </Paper>
         </Paper>
       </Container>
     )

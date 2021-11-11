@@ -64,15 +64,14 @@ export default function CreateListDialog() {
     setOpen(false);
   };
 
-  const formChange = (value: string, form: string) => {
-    switch (form) {
-    case 'name': setName(value)
-      break;
-    case 'address': setAddress(value)
-      break;
-    case 'comment': setComment(value)
-      break;
-    }
+  const formChangeName = (value: string) => {
+    setName(value)
+  }
+  const formChangeComment = (value: string) => {
+    setComment(value)
+  }
+  const formChangeAddress = (value: string) => {
+    setAddress(value)
   }
 
   return (
@@ -95,7 +94,7 @@ export default function CreateListDialog() {
             fullWidth
             variant="standard"
             value={name}
-            onChange={(e) => formChange(e.target.value, 'name')}
+            onChange={(e) => formChangeName(e.target.value)}
           />
           <TextField
             margin="dense"
@@ -104,7 +103,7 @@ export default function CreateListDialog() {
             fullWidth
             variant="standard"
             value={address}
-            onChange={(e) => formChange(e.target.value, 'address')}
+            onChange={(e) => formChangeAddress(e.target.value)}
           />
           <TextField
             margin="dense"
@@ -113,7 +112,7 @@ export default function CreateListDialog() {
             fullWidth
             variant="standard"
             value={comment}
-            onChange={(e) => formChange(e.target.value, 'comment')}
+            onChange={(e) => formChangeComment(e.target.value)}
           />
         </DialogContent>
         <DialogActions>

@@ -19,9 +19,10 @@ import _ from 'lodash';
 
 
 
-export default function CreateRowDialog() {
+export default function CreateItemDialog() {
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState('')
+  const [comment, setComment] = React.useState('')
   const [selectedTier, setSelectedTier] = React.useState('');
 
   const user = useRecoilValue(userState)
@@ -32,8 +33,6 @@ export default function CreateRowDialog() {
     setSelectedTier(event.target.value);
   };
   
-
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -63,21 +62,32 @@ export default function CreateRowDialog() {
   }
 
   const createItem = async () => {
-    if (currentList) {
+    if (user && currentList) {
       const clone = _.cloneDeep(currentList.ranking_rows);
-      clone[0].row_items.push({ name: "Test", comment: "test", image: ""})
-      console.log(clone)
-      console.log(currentList.ranking_rows)
+      _.find(clone, {row_name: selectedTier}).row_items.push({ name: name, comment: comment, image: ""})
+
+      const docRef = await doc(db, 'tier_lists', currentList.id)
+      await updateDoc(docRef, "ranking_rows",  clone);
+      const updatedList = await (await getDoc(docRef)).data()
+      let lists = await getUserLists(user.uid) 
+      if (updatedList) {
+        setCurrentList(updatedList)
+      }
+      setUserLists(lists)
     }
     setOpen(false);
   };
 
-  const formChange = (value: string) => {
+  const formChangeName = (value: string) => {
     setName(value)
   }
 
+  const formChangeComment = (value: string) => {
+    setComment(value)
+  }
+
   return (
-    <div>
+    <span>
       <Button color="secondary" variant="contained" onClick={handleClickOpen}>
         Add an item
       </Button>
@@ -91,12 +101,21 @@ export default function CreateRowDialog() {
           <TextField
             autoFocus
             margin="dense"
-            label="Item name"
+            label="Item Name"
             type="text"
             fullWidth
             variant="standard"
             value={name}
-            onChange={(e) => formChange(e.target.value)}
+            onChange={(e) => formChangeName(e.target.value)}
+          />
+          <TextField
+            margin="dense"
+            label="Comment"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={comment}
+            onChange={(e) => formChangeComment(e.target.value)}
           />
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Select a row</InputLabel>
@@ -118,6 +137,6 @@ export default function CreateRowDialog() {
           <Button onClick={createItem}>Add Row</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </span>
   );
 }

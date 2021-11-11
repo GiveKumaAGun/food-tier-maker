@@ -67,7 +67,7 @@ export default function CreateRowDialog() {
   }
 
   return (
-    <div>
+    <span>
       <Button color="secondary" variant="contained" onClick={handleClickOpen}>
         Add a row
       </Button>
@@ -94,6 +94,6 @@ export default function CreateRowDialog() {
           <Button onClick={createRow}>Add Row</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </span>
   );
 }
