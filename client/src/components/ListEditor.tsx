@@ -1,4 +1,4 @@
-import { DocumentData, setDoc, doc } from '@firebase/firestore'
+import { DocumentData, setDoc, doc, getDoc } from '@firebase/firestore'
 import React from 'react'
 import { TierListInfo, TierRow } from '../interfaces/User'
 import { Container, Paper, Typography, Button, Stack, Divider } from '@mui/material'
@@ -7,15 +7,36 @@ import { currentListState } from '../atoms'
 import CreateRowDialog from './CreateRowDialog'
 import CreateItemDialog from './CreateItemDialog'
 import ListRow from './ListRow'
+import { useParams } from 'react-router-dom'
+import { db } from '../firebaseConfig'
+import { useHistory } from 'react-router-dom'
+
 
 export default function ListEditor() {
   const [currentList, setCurrentList] = useRecoilState(currentListState)
+  const { list_id } = useParams<{list_id: string}>()
+  const history = useHistory()
+
+  const fetchListData = async () => {
+    const docRef = await doc(db, 'tier_lists', list_id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap) {
+      const listData = await docSnap.data();
+      if (listData) {
+        setCurrentList(listData)
+      }
+    }
+  }
 
   React.useEffect(() => {
+    if (!currentList) {
+      fetchListData()
+    }
   }, [])
 
   const unsetList = () => {
     setCurrentList(null)
+    history.push("/dashboard")
   }
 
   if (currentList) {

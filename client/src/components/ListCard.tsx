@@ -10,9 +10,11 @@ import { TierListInfo } from '../interfaces/User';
 import { DocumentData } from '@firebase/firestore';
 import { useSetRecoilState } from 'recoil';
 import { currentListState } from '../atoms';
+import { useHistory } from 'react-router-dom'
 
 export default function ListCard(props: { name: string, comment: string, address: string, listData: DocumentData}) {
   const setCurrentList = useSetRecoilState(currentListState)
+  const history = useHistory();
 
   React.useEffect(() => {
     console.log('props.listData', props.listData)
@@ -20,6 +22,7 @@ export default function ListCard(props: { name: string, comment: string, address
 
   const buttonHandler = () => {
     setCurrentList(props.listData)
+    history.push(`/lists/${props.listData.id}`)
   }
 
   return (
@@ -41,9 +44,3 @@ export default function ListCard(props: { name: string, comment: string, address
     </Card>
   );
 }
-
-{/* <Box sx={{width: "15rem", height: "15rem"}}>
-                    <GoogleMapReact bootstrapURLKeys={{ key: googleApiKey }} defaultCenter={{lat: 12, lng: 12}} defaultZoom={11}>
-                      <AnyReactComponent lat={12} lng={12}></AnyReactComponent>
-                    </GoogleMapReact>
-                  </Box> */}

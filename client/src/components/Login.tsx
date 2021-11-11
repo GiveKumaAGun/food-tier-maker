@@ -59,9 +59,8 @@ export default function Login() {
           }
           // The signed-in user info.
           const user = result.user;
-          history.push("/")
+          history.push("/dashboard")
         }
-        // FIX NESTED IFS LATER ^
 
       }).catch((error) => {
         // Handle Errors here.
@@ -78,6 +77,12 @@ export default function Login() {
         // ...
       });
 
+  }, [])
+
+  React.useEffect(() => {
+    if (user) {
+      history.push("/dashboard")
+    }
   }, [])
   
   const buttonHandler = () => {
@@ -104,72 +109,11 @@ export default function Login() {
     console.log(user)
     let lists = await getUserLists('guest') 
     setUserLists(lists)
-    history.push("/")
-    
+    history.push("/dashboard") 
   }
-
   
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      {/* <Paper>
-        <Box
-          sx={{
-            marginTop: 8,
-            padding: "2rem",
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Log in
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>    
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Log in
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link to="/signup">
-                  Need an account? Sign Up
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Paper> */}
       <Paper sx={{ margin: "2rem"}}>
         <Box sx={{ padding: "1rem", textAlign: "center" }}>
           <Typography component="h1" variant="h4" sx={{ margin: "2rem"}}>

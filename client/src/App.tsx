@@ -15,6 +15,8 @@ import { userState, userDataState, userListsState } from './atoms'
 import { collection, doc, getDoc, setDoc, DocumentReference, DocumentData, query, where, getDocs } from "firebase/firestore";
 import { User, TierListInfo } from './interfaces/User'
 import axios from 'axios';
+import ListEditor from './components/ListEditor';
+import { getUserLists } from './util/index'
 
 
 
@@ -34,26 +36,6 @@ function App() {
       console.log('No such document!')
       return false
     }
-  }
-
-  const getUserLists = async (uid: string) => {
-    const q = query(collection(db, "tier_lists"), where("user_id", "==", uid));
-    const querySnapshot = await getDocs(q);
-    const lists = querySnapshot.docs.map((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      const data = doc.data()
-      return {
-        address: data.address,
-        comment: data.comment,
-        ranking_rows: data.ranking_rows,
-        rest_name: data.rest_name,
-        rest_id: data.rest_id,
-        user_id: data.user_id,
-        geopoint: data.geopoint,
-        id: data.id
-      }
-    });
-    return lists
   }
 
   React.useEffect(() => {
@@ -85,9 +67,9 @@ function App() {
       <Router>
         <ThemeProvider theme={theme}>
           <AppBar />
-          <Route path="/" exact component={Dashboard} />
-          <Route path="/signup" exact component={SignUp} />
-          <Route path="/login" exact component={Login} />
+          <Route path="/dashboard" exact component={Dashboard} />
+          <Route path="/" exact component={Login} />
+          <Route path="/lists/:list_id" exact component={ListEditor} />
         </ThemeProvider>
       </Router>
     </div>

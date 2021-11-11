@@ -1,1 +1,1 @@
-# menu-item-ranker
+# About this project
