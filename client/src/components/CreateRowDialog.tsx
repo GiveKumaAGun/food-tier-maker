@@ -9,6 +9,7 @@ import { collection, doc, getDoc, query, where, getDocs, updateDoc } from "fireb
 import { db } from "../firebaseConfig";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import { userListsState, userState, currentListState } from "../atoms";
+import { getUserLists } from "../util/index";
 
 
 export default function CreateRowDialog() {
@@ -27,26 +28,6 @@ export default function CreateRowDialog() {
     setOpen(false);
   };
 
-  const getUserLists = async (uid: string) => {
-    const q = query(collection(db, "tier_lists"), where("user_id", "==", uid));
-    const querySnapshot = await getDocs(q);
-    const lists = querySnapshot.docs.map((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      const data = doc.data();
-      return {
-        address: data.address,
-        comment: data.comment,
-        ranking_rows: data.ranking_rows,
-        rest_name: data.rest_name,
-        rest_id: data.rest_id,
-        user_id: data.user_id,
-        geopoint: data.geopoint,
-        id: data.id
-      };
-    });
-    return lists;
-  };
-
   const createRow = async () => {
     if (user && currentList) {
       const docRef = await doc(db, "tier_lists", currentList.id);
@@ -58,6 +39,7 @@ export default function CreateRowDialog() {
       }
       setUserLists(lists);
     }
+    setName("");
     setOpen(false);
   };
 
@@ -67,11 +49,11 @@ export default function CreateRowDialog() {
 
   return (
     <span>
-      <Button color="secondary" variant="contained" onClick={handleClickOpen} sx={{ m: 0.5 }}>
-        Add a row
+      <Button color="success" variant="contained" onClick={handleClickOpen} sx={{ m: 0.5 }}>
+        Add Tier
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add a row</DialogTitle>
+        <DialogTitle>Add a Tier</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We

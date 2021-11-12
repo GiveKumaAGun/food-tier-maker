@@ -23,7 +23,7 @@ export default function ListCard(props: { name: string, comment: string, address
   };
 
   return (
-    <Card color="primary" sx={{ display: "flex", justifyContent: "space-between", flexDirection: "column", backgroundColor: "primary.main", color: "primary.contrastText", width: "256px" }}>
+    <Card color="primary" sx={{ display: "flex", justifyContent: "space-between", flexDirection: "column", backgroundColor: "primary.main", color: "primary.contrastText", width: "230px" }}>
       <CardContent>
         <Typography variant="h5" component="div">
           {props.name}

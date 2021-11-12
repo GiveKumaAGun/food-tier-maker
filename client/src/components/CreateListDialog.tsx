@@ -53,7 +53,12 @@ export default function CreateListDialog() {
         rest_name: name,
         address: address,
         comment: comment,
-        ranking_rows: [],
+        ranking_rows: [
+          { row_name: "S", row_items: [] },
+          { row_name: "A", row_items: [] },
+          { row_name: "B", row_items: [] },
+          { row_name: "C", row_items: [] },
+        ],
         user_id: user.uid,
       });
       await setDoc(docRef, { id: docRef.id }, { merge: true });
@@ -81,10 +86,6 @@ export default function CreateListDialog() {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Create New List</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
-          </DialogContentText> */}
           <TextField
             autoFocus
             margin="dense"

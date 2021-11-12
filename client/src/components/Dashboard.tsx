@@ -35,7 +35,7 @@ export default function Dashboard() {
           <Typography textAlign="center" variant="h4">My lists</Typography>
           <Grid container alignItems="stretch" sx={{ display: "flex", alignItems: "stretch", justifyContent: "center" }}>
             <Grid item style={{display: "flex", padding: "1rem"}} >
-              <Card color="primary" sx={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "primary.main", color: "primary.contrastText", width: "256px" }}>
+              <Card color="primary" sx={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "primary.main", color: "primary.contrastText", width: "230px", minHeight: "150px" }}>
                 <CardActions>
                   <CreateListDialog />
                 </CardActions>
