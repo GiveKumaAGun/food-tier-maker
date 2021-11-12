@@ -33,9 +33,9 @@ export default function ListEditor() {
   React.useEffect(() => {
     if (!user) {
       history.push("/");
-      if (!currentList) {
-        fetchListData();
-      }
+    }
+    if (!currentList) {
+      fetchListData();
     }
   }, []);
 
@@ -66,7 +66,7 @@ export default function ListEditor() {
       </Container>
     );
   } else { // error if this somehow occurs
-    return null;
+    return <Button onClick={unsetList} color="secondary" variant="contained" sx={{ margin: 2}}>Back to dashboard</Button>;
   }
   
 }
