@@ -6,6 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { currentListState, userState } from "../atoms";
 import CreateRowDialog from "./CreateRowDialog";
 import CreateItemDialog from "./CreateItemDialog";
+import EditTiersDialog from "./EditTiersDialog";
 import ListRow from "./ListRow";
 import { useParams } from "react-router-dom";
 import { db } from "../firebaseConfig";
@@ -51,6 +52,7 @@ export default function ListEditor() {
           <Typography variant="h3">{currentList.rest_name}</Typography>
           <CreateRowDialog />
           <CreateItemDialog />
+          <EditTiersDialog tiers={currentList.ranking_rows} />
           <Stack 
             sx={{ marginBlock: 2 }}
           >
