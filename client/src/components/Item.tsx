@@ -110,8 +110,12 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
     setOpenDelete(false);
   };
 
-  const EditItemDialog = () => {
-    return (
+  return (
+    <span>
+      <RowItem color="primary" variant="contained" onClick={handleClickOpenEdit}>
+        <Typography sx={{ lineHeight: 1 }}>{props.item.comment ? props.item.name + "*" : props.item.name}</Typography>
+      </RowItem>
+      {/* DIALOG FOR EDIT ITEM */}
       <Dialog open={openEdit} onClose={handleCloseEdit}>
         <DialogTitle sx={{ display: "flex", justifyContent: "space-between"}}>
           Edit Item Details
@@ -130,7 +134,7 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
             onChange={(e) => formChangeName(e.target.value)}
           />
           <TextField
-            multiline
+            multiline={true}
             margin="dense"
             label="Comment"
             type="text"
@@ -160,11 +164,7 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
           <Button variant="contained" onClick={saveChanges}>Save Changes</Button>
         </DialogActions>
       </Dialog>
-    );
-  };
-
-  const DeleteItemDialog = () => {
-    return (
+      {/* DIALOG FOR DELETE ITEM */}
       <Dialog open={openDelete} onClose={handleCloseDelete}>
         <DialogTitle>Delete Item</DialogTitle>
         <DialogContent>
@@ -177,16 +177,6 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
           <Button variant="contained" onClick={deleteItem}>Delete</Button>
         </DialogActions>
       </Dialog>
-    );
-  };
-
-  return (
-    <span>
-      <RowItem color="primary" variant="contained" onClick={handleClickOpenEdit}>
-        <Typography sx={{ lineHeight: 1 }}>{props.item.comment ? props.item.name + "*" : props.item.name}</Typography>
-      </RowItem>
-      <EditItemDialog />
-      <DeleteItemDialog />
     </span>
   );
 }
