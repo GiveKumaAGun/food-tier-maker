@@ -11,6 +11,7 @@ import ListRow from "./ListRow";
 import { useParams } from "react-router-dom";
 import { db } from "../firebaseConfig";
 import { useHistory } from "react-router-dom";
+import DeleteListDialog from "./DeleteListDialog";
 
 
 export default function ListEditor() {
@@ -53,6 +54,7 @@ export default function ListEditor() {
           <CreateRowDialog />
           <CreateItemDialog />
           <EditTiersDialog tiers={currentList.ranking_rows} />
+          <DeleteListDialog />
           <Stack 
             sx={{ marginBlock: 2 }}
           >
