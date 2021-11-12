@@ -25,18 +25,7 @@ const RowItem = styled(Button)({
   height: "100px",
   width: "100px",
   minWidth: "100px",
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.primary.contrastText,
-  backgroundColor: theme.palette.primary.main,
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
   textTransform: "none",
-  ":hover": {
-    backgroundColor: theme.palette.primary.dark
-  },
-  textOverflow: "ellipsis"
 });
 
 export default function Item(props: { item: TierItem, tier: TierRow }) {
@@ -94,7 +83,7 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
 
   return (
     <span>
-      <RowItem color="secondary" variant="contained" onClick={handleClickOpen}>
+      <RowItem color="primary" variant="contained" onClick={handleClickOpen}>
         <Typography sx={{ lineHeight: 1 }}>{props.item.comment ? props.item.name + "*" : props.item.name}</Typography>
       </RowItem>
       <Dialog open={open} onClose={handleClose}>
@@ -122,10 +111,10 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
             onChange={(e) => formChangeComment(e.target.value)}
           />
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Select a row</InputLabel>
+            <InputLabel id="tier-select-label">Select a row</InputLabel>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              labelId="tier-select-label"
+              id="tier-select"
               value={tier}
               label="Select a tier"
               onChange={formChangeTier}
