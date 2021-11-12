@@ -2,8 +2,8 @@ import { doc, getDoc } from "@firebase/firestore";
 import React from "react";
 import { TierRow } from "../interfaces/TierList";
 import { Container, Paper, Typography, Button, Stack, Divider } from "@mui/material";
-import { useRecoilState } from "recoil";
-import { currentListState } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { currentListState, userState } from "../atoms";
 import CreateRowDialog from "./CreateRowDialog";
 import CreateItemDialog from "./CreateItemDialog";
 import ListRow from "./ListRow";
@@ -16,6 +16,7 @@ export default function ListEditor() {
   const [currentList, setCurrentList] = useRecoilState(currentListState);
   const { list_id } = useParams<{list_id: string}>();
   const history = useHistory();
+  const user = useRecoilValue(userState);
 
   const fetchListData = async () => {
     const docRef = await doc(db, "tier_lists", list_id);
@@ -29,8 +30,11 @@ export default function ListEditor() {
   };
 
   React.useEffect(() => {
-    if (!currentList) {
-      fetchListData();
+    if (!user) {
+      history.push("/");
+      if (!currentList) {
+        fetchListData();
+      }
     }
   }, []);
 

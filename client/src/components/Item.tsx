@@ -19,6 +19,7 @@ import { getUserLists } from "../util";
 import _ from "lodash";
 import { styled } from "@mui/system";
 import theme from "../theme";
+import { DialogContentText } from "@mui/material";
 
 const RowItem = styled(Button)({
   margin: theme.spacing(1),
@@ -29,7 +30,8 @@ const RowItem = styled(Button)({
 });
 
 export default function Item(props: { item: TierItem, tier: TierRow }) {
-  const [open, setOpen] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
   const [name, setName] = React.useState(props.item.name);
   const [comment, setComment] = React.useState(props.item.comment);
   const [tier, setTier] = React.useState(props.tier.row_name);
@@ -38,16 +40,23 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
   const [currentList, setCurrentList] = useRecoilState(currentListState);
   const setUserLists = useSetRecoilState(userListsState);
   
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpenEdit = () => {
+    setOpenEdit(true);
+  };
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
   };
 
   const formChangeName = (value: string) => {
-    if (value.length < 42) {
+    if (value.length < 42) { // temp arbitrary
       setName(value);
     }
   };
@@ -78,16 +87,37 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
       }
       setUserLists(lists);
     }
-    setOpen(false);
+    setOpenEdit(false);
   };
 
-  return (
-    <span>
-      <RowItem color="primary" variant="contained" onClick={handleClickOpen}>
-        <Typography sx={{ lineHeight: 1 }}>{props.item.comment ? props.item.name + "*" : props.item.name}</Typography>
-      </RowItem>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Item Details</DialogTitle>
+  const deleteItem = async () => {
+    if (user && currentList) {
+      const clone = _.cloneDeep(currentList.ranking_rows);
+      const rowIndex = _.findIndex(clone, {row_name: props.tier.row_name});
+      const itemIndex = _.findIndex(clone[rowIndex].row_items, { name: props.item.name });
+      clone[rowIndex].row_items.splice(itemIndex, 1);
+      
+      const docRef = await doc(db, "tier_lists", currentList.id);
+      await updateDoc(docRef, "ranking_rows",  clone);
+      const updatedList = await (await getDoc(docRef)).data();
+      let lists = await getUserLists(user.uid); 
+      if (updatedList) {
+        setCurrentList(updatedList);
+      }
+      setUserLists(lists);
+    }
+    setOpenEdit(false);
+    setOpenDelete(false);
+  };
+
+  const EditItemDialog = () => {
+    return (
+      <Dialog open={openEdit} onClose={handleCloseEdit}>
+        <DialogTitle sx={{ display: "flex", justifyContent: "space-between"}}>
+          Edit Item Details
+          <Button color="warning" variant="contained" onClick={handleClickOpenDelete}>Delete</Button>
+        </DialogTitle>
+        
         <DialogContent>
           <TextField
             autoFocus
@@ -101,6 +131,7 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
             onChange={(e) => formChangeName(e.target.value)}
           />
           <TextField
+            multiline
             margin="dense"
             label="Comment"
             type="text"
@@ -126,10 +157,37 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={handleClose}>Cancel</Button>
+          <Button variant="outlined" onClick={handleCloseEdit}>Cancel</Button>
           <Button variant="contained" onClick={saveChanges}>Save Changes</Button>
         </DialogActions>
       </Dialog>
+    );
+  };
+
+  const DeleteItemDialog = () => {
+    return (
+      <Dialog open={openDelete} onClose={handleCloseDelete}>
+        <DialogTitle>Delete Item</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete &quot;{props.item.name}&quot;?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="outlined" onClick={handleCloseDelete}>Cancel</Button>
+          <Button variant="contained" onClick={deleteItem}>Delete</Button>
+        </DialogActions>
+      </Dialog>
+    );
+  };
+
+  return (
+    <span>
+      <RowItem color="primary" variant="contained" onClick={handleClickOpenEdit}>
+        <Typography sx={{ lineHeight: 1 }}>{props.item.comment ? props.item.name + "*" : props.item.name}</Typography>
+      </RowItem>
+      <EditItemDialog />
+      <DeleteItemDialog />
     </span>
   );
 }
