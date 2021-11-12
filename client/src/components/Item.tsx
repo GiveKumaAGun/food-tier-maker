@@ -5,6 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import Typography from "@mui/material/Typography";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
@@ -34,7 +35,8 @@ const RowItem = styled(Button)({
   textTransform: "none",
   ":hover": {
     backgroundColor: theme.palette.primary.dark
-  }
+  },
+  textOverflow: "ellipsis"
 });
 
 export default function Item(props: { item: TierItem, tier: TierRow }) {
@@ -92,16 +94,12 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
 
   return (
     <span>
-      <RowItem color="secondary" variant="contained" onClick={handleClickOpen} sx={{ m: 0.5 }}>
-        {props.item.comment ? props.item.name + "*" : props.item.name}
+      <RowItem color="secondary" variant="contained" onClick={handleClickOpen}>
+        <Typography sx={{ lineHeight: 1 }}>{props.item.comment ? props.item.name + "*" : props.item.name}</Typography>
       </RowItem>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Item Details</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
-          </DialogContentText> */}
           <TextField
             autoFocus
             margin="dense"
