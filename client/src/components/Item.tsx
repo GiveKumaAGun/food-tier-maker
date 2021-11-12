@@ -115,9 +115,8 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
       <Dialog open={openEdit} onClose={handleCloseEdit}>
         <DialogTitle sx={{ display: "flex", justifyContent: "space-between"}}>
           Edit Item Details
-          <Button color="warning" variant="contained" onClick={handleClickOpenDelete}>Delete</Button>
+          <Button color="error" variant="contained" onClick={handleClickOpenDelete}>Delete</Button>
         </DialogTitle>
-        
         <DialogContent>
           <TextField
             autoFocus

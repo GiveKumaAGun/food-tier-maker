@@ -58,6 +58,7 @@ export default function CreateRowDialog() {
       }
       setUserLists(lists);
     }
+    setName("");
     setOpen(false);
   };
 
@@ -67,8 +68,8 @@ export default function CreateRowDialog() {
 
   return (
     <span>
-      <Button color="secondary" variant="contained" onClick={handleClickOpen} sx={{ m: 0.5 }}>
-        Add a row
+      <Button color="success" variant="contained" onClick={handleClickOpen} sx={{ m: 0.5 }}>
+        Add row
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add a row</DialogTitle>
