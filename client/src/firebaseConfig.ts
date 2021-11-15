@@ -7,6 +7,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 
 import { GoogleAuthProvider, getAuth } from "firebase/auth";
+import { linearProgressClasses } from "@mui/material";
 
 // TODO: Add SDKs for Firebase products that you want to use
 
@@ -19,7 +20,7 @@ import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyAb7gQDYCfbu6RSye9FIeRGIM-TTq1TKqk", // set up as env variable
+  apiKey: process.env.REACT_APP_FIREBASE_TOKEN, // set up as env variable
 
   authDomain: "menu-item-ranker.firebaseapp.com",
 
@@ -46,4 +47,4 @@ export const auth = getAuth();
 
 export const provider = new GoogleAuthProvider();
 
-export const googleApiKey = "AIzaSyAb7gQDYCfbu6RSye9FIeRGIM-TTq1TKqk"; // set up as env variable
+export const googleApiKey = process.env.REACT_APP_FIREBASE_TOKEN;

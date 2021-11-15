@@ -1,4 +1,15 @@
 steps:
+- name: gcr.io/cloud-builders/gcloud
+  dir: 'client/'
+  args:
+  - kms
+  - decrypt
+  - --ciphertext-file=.env.enc
+  - --plaintext-file=.env
+  - --location=global
+  - --keyring=firebase-api
+  - --key=cloudbuild-env
+
 - name: 'gcr.io/cloud-builders/npm'
   id: 'client-install'
   args: [ 'install' ]
