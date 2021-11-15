@@ -29,7 +29,8 @@
     "hack": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "firebase deploy --debug --token \"$FIREBASE_TOKEN\""
   },
   "proxy": "http://localhost:8080",
   "browserslist": {
@@ -53,6 +54,7 @@
     "@types/react-router-dom": "^5.3.2",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.26.1",
+    "firebase-tools": "^9.22.0",
     "jest": "^26.6.0",
     "nodemon": "^2.0.14",
     "react-test-renderer": "^17.0.2",
