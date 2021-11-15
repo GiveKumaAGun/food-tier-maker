@@ -111,7 +111,7 @@ export default function Login() {
             Log in
           </Typography>
           <Button variant="contained" onClick={buttonHandler}>Log in with Google</Button>
-          <Button variant="contained" sx={{margin: "1rem"}} onClick={demoLogin}>USE PUBLIC DEMO ACCOUNT</Button>
+          <Button variant="contained" sx={{margin: "1rem"}} onClick={demoLogin}>Use Public Demo Settings</Button>
         </Box>
       </Paper>
     </Container>
