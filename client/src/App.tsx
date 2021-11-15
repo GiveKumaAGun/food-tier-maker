@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import logo from "./logo.svg";
 import AppBar from "./components/AppBar";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
 import Dashboard from "./components/Dashboard";
@@ -21,6 +21,7 @@ function App() {
   const [user, setUser] = useRecoilState(userState);
   const [userData, setUserData] = useRecoilState(userDataState);
   const [userLists, setUserLists] = useRecoilState(userListsState);
+  const history = useHistory();
 
   const getUserData = async (uid: string) => {
     const docRef = doc(db, "users", uid);
@@ -38,7 +39,6 @@ function App() {
   React.useEffect(() => {
     onAuthStateChanged(auth, async () => {
       if (auth.currentUser) {
-        console.log(auth.currentUser);
         await setUser({
           uid: auth.currentUser.uid,
           displayName: auth.currentUser.displayName,
@@ -47,7 +47,6 @@ function App() {
 
         let userInDb = await getUserData(auth.currentUser.uid);
         let lists = await getUserLists(auth.currentUser.uid); 
-        console.log(lists);
         setUserLists(lists);
         if (!userInDb) {
           await setDoc(doc(db, "users", auth.currentUser.uid), {
@@ -55,6 +54,10 @@ function App() {
             email: auth.currentUser.email,
           });
         }
+      }
+
+      if (auth.currentUser) {
+        history.push("/dashboard");
       }
     });
   }, []);
