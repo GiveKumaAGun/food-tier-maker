@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Paper, Typography, Grid, Card, CardActions } from "@mui/material";
+import { Container, Paper, Typography, Grid, Card, CardActions, Box } from "@mui/material";
 import { useRecoilValue } from "recoil";
 import { userListsState, userState, currentListState } from "../atoms";
 import ListCard from "./ListCard";
@@ -15,7 +15,6 @@ type Props = {
 export default function Dashboard() {
   const user = useRecoilValue(userState);
   const lists = useRecoilValue(userListsState);
-  const currentList = useRecoilValue(currentListState);
   const history = useHistory();
 
   React.useEffect(() => {
@@ -28,25 +27,25 @@ export default function Dashboard() {
   if (user) {
     return (
       <Container>
-        <Paper sx={{margin: "1rem", padding: "2rem" }}>
+        <Paper sx={{m: 1, p: 2 }}>
           <Typography variant="h2" textAlign="center"> Welcome {user.displayName}</Typography>
         </Paper>
-        <Paper sx={{margin: "1rem", padding: "2rem" }}>
+        <Paper sx={{ m: 1, p: 2 }}>
           <Typography textAlign="center" variant="h4">My lists</Typography>
-          <Grid container alignItems="stretch" sx={{ display: "flex", alignItems: "stretch", justifyContent: "center" }}>
-            <Grid item style={{display: "flex", padding: "1rem"}} >
+          <Box sx={{ mt: 3, height: "100%", display: "grid", gridTemplateColumns: "repeat(auto-fill, 250px)", alignItems: "center", justifyContent: "center", gap: 2 }}>
+            <Box sx={{ height: "100%", p: 1 }}>
               <Card color="primary" sx={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "primary.main", color: "primary.contrastText", width: "230px", minHeight: "150px" }}>
                 <CardActions>
                   <CreateListDialog />
                 </CardActions>
               </Card>
-            </Grid>
+            </Box>
             {lists.map((list) => (
-              <Grid key={list.rest_name} item sx={{ display: "flex", padding: "1rem" }}>
+              <Box key={list.rest_name} sx={{ height: "100%", p: 1 }}>
                 <ListCard  name={list.rest_name} comment={list.comment ? list.comment : ""} address={list.address ? list.address : ""} listData={list}/>
-              </Grid>
+              </Box>
             ))}
-          </Grid>
+          </Box>
         </Paper>
       </Container>
     );

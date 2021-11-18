@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import logo from "./logo.svg";
 import AppBar from "./components/AppBar";
 import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
@@ -9,8 +8,8 @@ import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./firebaseConfig";
-import { useRecoilState } from "recoil";
-import { userState, userDataState, userListsState } from "./atoms";
+import { useSetRecoilState } from "recoil";
+import { userState, userListsState } from "./atoms";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import ListEditor from "./components/ListEditor";
 import { getUserLists } from "./util/index";
@@ -18,10 +17,8 @@ import { getUserLists } from "./util/index";
 
 
 function App() {
-  const [user, setUser] = useRecoilState(userState);
-  const [userData, setUserData] = useRecoilState(userDataState);
-  const [userLists, setUserLists] = useRecoilState(userListsState);
-  const history = useHistory();
+  const setUser = useSetRecoilState(userState);
+  const setUserLists = useSetRecoilState(userListsState);
 
   const getUserData = async (uid: string) => {
     const docRef = doc(db, "users", uid);
@@ -54,10 +51,6 @@ function App() {
             email: auth.currentUser.email,
           });
         }
-      }
-
-      if (auth.currentUser) {
-        history.push("/dashboard");
       }
     });
   }, []);
