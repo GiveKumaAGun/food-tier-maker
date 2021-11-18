@@ -19,7 +19,6 @@ import { getUserLists } from "./util/index";
 function App() {
   const setUser = useSetRecoilState(userState);
   const setUserLists = useSetRecoilState(userListsState);
-  const history = useHistory();
 
   const getUserData = async (uid: string) => {
     const docRef = doc(db, "users", uid);
@@ -52,10 +51,6 @@ function App() {
             email: auth.currentUser.email,
           });
         }
-      }
-
-      if (auth.currentUser) {
-        history.push("/dashboard");
       }
     });
   }, []);

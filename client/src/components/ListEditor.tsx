@@ -26,7 +26,6 @@ export default function ListEditor() {
     if (docSnap) {
       const listData = await docSnap.data();
       if (listData) {
-        console.log(listData.user_id);
         setCurrentList(listData);
       }
     }
