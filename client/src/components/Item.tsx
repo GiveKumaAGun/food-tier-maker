@@ -20,6 +20,8 @@ import _ from "lodash";
 import { styled } from "@mui/system";
 import theme from "../theme";
 import { DialogContentText } from "@mui/material";
+import axios from "axios";
+import {v4 as uuidv4} from "uuid";
 
 const RowItem = styled(Button)({
   margin: theme.spacing(1),
@@ -75,8 +77,8 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
       const rowIndex = _.findIndex(clone, {row_name: props.tier.row_name});
       const itemIndex = _.findIndex(clone[rowIndex].row_items, { name: props.item.name });
       const newRowIndex = _.findIndex(clone, {row_name: tier});
-      clone[rowIndex].row_items.splice(itemIndex, 1);
-      clone[newRowIndex].row_items.push({ name: name, comment: comment, image: ""});
+      const removed = clone[rowIndex].row_items.splice(itemIndex, 1);
+      clone[newRowIndex].row_items.push({ name: name, comment: comment, image: removed[0].image});
       
       const docRef = await doc(db, "tier_lists", currentList.id);
       await updateDoc(docRef, "ranking_rows",  clone);
@@ -110,6 +112,47 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
     setOpenDelete(false);
   };
 
+  const uploadFile = async  (e: HTMLInputElement) => {
+    const imageId = uuidv4();
+    console.log(imageId);
+    let formData = new FormData();
+    
+
+    if (user && currentList) {
+      const clone = _.cloneDeep(currentList.ranking_rows);
+      const rowIndex = _.findIndex(clone, {row_name: props.tier.row_name});
+      const itemIndex = _.findIndex(clone[rowIndex].row_items, { name: props.item.name });
+      const newRowIndex = _.findIndex(clone, {row_name: tier});
+      const removed = clone[rowIndex].row_items.splice(itemIndex, 1);
+      console.log(removed[0].image);
+      clone[newRowIndex].row_items.push({ name: removed[0].name, comment: removed[0].comment, image: imageId});
+
+      if (e.files) {
+
+        formData.append("file", e.files[0]);
+        formData.append("id", imageId);
+  
+        await axios({
+          url: `/api/image?${"imageId=" + imageId + "&prevImageId=" + removed[0].image}`,
+          method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
+          data: formData
+        });
+      }
+      
+      const docRef = await doc(db, "tier_lists", currentList.id);
+      await updateDoc(docRef, "ranking_rows",  clone);
+      const updatedList = await (await getDoc(docRef)).data();
+      let lists = await getUserLists(user.uid); 
+      if (updatedList) {
+        setCurrentList(updatedList);
+      }
+      setUserLists(lists);
+    }
+  };
+
   return (
     <span>
       <RowItem color="primary" variant="contained" onClick={handleClickOpenEdit}>
@@ -122,6 +165,10 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
           <Button color="error" variant="contained" onClick={handleClickOpenDelete}>Delete</Button>
         </DialogTitle>
         <DialogContent>
+          <Button variant="contained" component="label">
+            <input onChange={(e) => uploadFile(e.target)} type="file" id="image" name="image" accept="image/png, image/jpeg" hidden />
+            Upload an image
+          </Button>
           <TextField
             autoFocus
             margin="dense"

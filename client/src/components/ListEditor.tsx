@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { db } from "../firebaseConfig";
 import { useHistory } from "react-router-dom";
 import DeleteListDialog from "./DeleteListDialog";
+import axios from "axios";
 
 
 export default function ListEditor() {
@@ -39,6 +40,14 @@ export default function ListEditor() {
       fetchListData();
     }
   }, []);
+
+  const fetchImages = async () => {
+    let response = await axios.get("/api/lists/:listId/images");
+  };
+
+  React.useEffect(() => {
+
+  }, [currentList]);
 
   const unsetList = () => {
     setCurrentList(null);

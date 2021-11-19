@@ -1,2 +1,4 @@
 runtime: nodejs16
 service: api
+env_variables:
+  GCLOUD_STORAGE_BUCKET: test-bucket-please-ignore
