@@ -20,6 +20,8 @@ import _ from "lodash";
 import { styled } from "@mui/system";
 import theme from "../theme";
 import { DialogContentText } from "@mui/material";
+import axios from "axios";
+import {v4 as uuidv4} from "uuid";
 
 const RowItem = styled(Button)({
   margin: theme.spacing(1),
@@ -110,6 +112,26 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
     setOpenDelete(false);
   };
 
+  const uploadFile = (e: HTMLInputElement) => {
+    const imageId = uuidv4();
+    let formData = new FormData();
+    if (e.files) {
+
+      formData.append("file", e.files[0]);
+
+      axios({
+        url: "/api/image/",
+        method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+        data: formData
+      });
+    }
+
+
+  };
+
   return (
     <span>
       <RowItem color="primary" variant="contained" onClick={handleClickOpenEdit}>
@@ -122,6 +144,10 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
           <Button color="error" variant="contained" onClick={handleClickOpenDelete}>Delete</Button>
         </DialogTitle>
         <DialogContent>
+          <Button variant="contained" component="label">
+            <input onChange={(e) => uploadFile(e.target)} type="file" id="image" name="image" accept="image/png, image/jpeg" hidden />
+            Upload an image
+          </Button>
           <TextField
             autoFocus
             margin="dense"

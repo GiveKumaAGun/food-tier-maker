@@ -13,6 +13,7 @@ import { userState, userListsState } from "./atoms";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import ListEditor from "./components/ListEditor";
 import { getUserLists } from "./util/index";
+import Landing from "./components/Landing";
 
 
 
@@ -61,7 +62,8 @@ function App() {
         <ThemeProvider theme={theme}>
           <AppBar />
           <Route path="/dashboard" exact component={Dashboard} />
-          <Route path="/" exact component={Login} />
+          <Route path="/" exact component={Landing} />
+          <Route path="/login" exact component={Login} />
           <Route path="/lists/:list_id" exact component={ListEditor} />
         </ThemeProvider>
       </Router>
