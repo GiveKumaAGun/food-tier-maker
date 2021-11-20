@@ -58,20 +58,16 @@ export default function ListEditor() {
         <Button onClick={unsetList} color="secondary" variant="contained" sx={{ margin: 2}}>Back to dashboard</Button>
         <Paper sx={{ margin: 1, padding: 4 }}>
           <Typography variant="h3">{currentList.rest_name}</Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-between"}}>
-            <Box>
-              <CreateRowDialog />
-              <CreateItemDialog />
-              <EditTiersDialog tiers={currentList.ranking_rows} />
-              <DeleteListDialog />
-            </Box>
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
-              <Typography>Show Images</Typography>
-              <Switch checked={imageView} onChange={toggleImageView} />
-            </Box>
-          </Box>
+          <CreateRowDialog />
+          <CreateItemDialog />
+          <EditTiersDialog tiers={currentList.ranking_rows} />
+          <DeleteListDialog />
+          <div style={{ marginLeft: "0.3rem" }}>
+            <Typography component="span">Show Images</Typography>
+            <Switch checked={imageView} onChange={toggleImageView} />
+          </div>
           <Stack 
-            sx={{ marginBlock: 2 }}
+            sx={{ marginBlock: 1 }}
           >
             {currentList.ranking_rows.map((row: TierRow) => {
               return (
