@@ -35,7 +35,7 @@ const ItemContainer = styled(Box)({
 
 export default function ListRow(props: { rowData: TierRow}) {
   return (
-    <Row container>
+    <Row sx={{ mt: 2 }} container>
       <RowName item xs={12}>
         <Typography variant="h5">{props.rowData.row_name}</Typography>
       </RowName>
