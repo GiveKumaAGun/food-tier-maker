@@ -32,7 +32,7 @@ export default function ListCard(props: { name: string, comment: string, address
         </Typography>
       </CardContent>
       <CardActions>
-        <Button color="secondary" variant="contained" size="small" onClick={buttonHandler}>View Details</Button>
+        <Button color="secondary" variant="contained" size="small" onClick={buttonHandler}>View List</Button>
       </CardActions>
     </Card>
   );
