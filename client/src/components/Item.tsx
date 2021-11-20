@@ -168,11 +168,8 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
   return (
     <span>
       <RowItem color="primary" variant="contained" onClick={handleClickOpenEdit}>
-        { imageView && image ? 
-          <img style={{ width: "100px", height: "100px", borderRadius: "4px"}} src={`data:image/png;base64,${image}`} /> 
-          : 
-          <Typography sx={{ lineHeight: 1 }}>{props.item.comment ? props.item.name + "*" : props.item.name}</Typography>
-        }
+        {image ? <img hidden={imageView ? false: true} style={{ width: "100px", height: "100px", borderRadius: "4px"}} src={`data:image/png;base64,${image}`} /> : null}
+        <Typography hidden={imageView && image ? true : false} sx={{ lineHeight: 1 }}>{props.item.comment ? props.item.name + "*" : props.item.name}</Typography>
       </RowItem>
       {/* DIALOG FOR EDIT ITEM */}
       <Dialog open={openEdit} onClose={handleCloseEdit}>
