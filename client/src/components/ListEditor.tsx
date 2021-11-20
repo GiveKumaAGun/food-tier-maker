@@ -1,9 +1,9 @@
 import { doc, getDoc } from "@firebase/firestore";
 import React from "react";
 import { TierRow } from "../interfaces/TierList";
-import { Container, Paper, Typography, Button, Stack, Divider } from "@mui/material";
+import { Container, Paper, Typography, Button, Stack, Switch, Box } from "@mui/material";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { currentListState, userState } from "../atoms";
+import { currentListState, imageViewState, userState } from "../atoms";
 import CreateRowDialog from "./CreateRowDialog";
 import CreateItemDialog from "./CreateItemDialog";
 import EditTiersDialog from "./EditTiersDialog";
@@ -13,6 +13,7 @@ import { db } from "../firebaseConfig";
 import { useHistory } from "react-router-dom";
 import DeleteListDialog from "./DeleteListDialog";
 import axios from "axios";
+import _ from "lodash";
 
 
 export default function ListEditor() {
@@ -20,6 +21,7 @@ export default function ListEditor() {
   const { list_id } = useParams<{list_id: string}>();
   const history = useHistory();
   const user = useRecoilValue(userState);
+  const [imageView, setImageView] = useRecoilState(imageViewState);
 
   const fetchListData = async () => {
     const docRef = await doc(db, "tier_lists", list_id);
@@ -41,17 +43,13 @@ export default function ListEditor() {
     }
   }, []);
 
-  const fetchImages = async () => {
-    let response = await axios.get("/api/lists/:listId/images");
-  };
-
-  React.useEffect(() => {
-
-  }, [currentList]);
-
   const unsetList = () => {
     setCurrentList(null);
     history.push("/dashboard");
+  };
+
+  const toggleImageView = () => {
+    setImageView(!imageView);
   };
 
   if (currentList) {
@@ -60,10 +58,18 @@ export default function ListEditor() {
         <Button onClick={unsetList} color="secondary" variant="contained" sx={{ margin: 2}}>Back to dashboard</Button>
         <Paper sx={{ margin: 1, padding: 4 }}>
           <Typography variant="h3">{currentList.rest_name}</Typography>
-          <CreateRowDialog />
-          <CreateItemDialog />
-          <EditTiersDialog tiers={currentList.ranking_rows} />
-          <DeleteListDialog />
+          <Box sx={{ display: "flex", justifyContent: "space-between"}}>
+            <Box>
+              <CreateRowDialog />
+              <CreateItemDialog />
+              <EditTiersDialog tiers={currentList.ranking_rows} />
+              <DeleteListDialog />
+            </Box>
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+              <Typography>Show Images</Typography>
+              <Switch checked={imageView} onChange={toggleImageView} />
+            </Box>
+          </Box>
           <Stack 
             sx={{ marginBlock: 2 }}
           >

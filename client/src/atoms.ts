@@ -21,3 +21,8 @@ export const currentListState = atom<DocumentData | null>({
   key: "currentList",
   default: null
 });
+
+export const imageViewState = atom<boolean> ({
+  key: "imageView",
+  default: false
+});
