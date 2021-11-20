@@ -41,6 +41,9 @@ export default function ListEditor() {
     if (!currentList) {
       fetchListData();
     }
+    return () => {
+      setImageView(false);
+    };
   }, []);
 
   const unsetList = () => {
