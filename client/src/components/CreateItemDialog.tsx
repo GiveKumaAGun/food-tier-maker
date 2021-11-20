@@ -113,7 +113,7 @@ export default function CreateItemDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={createItem}>Add Row</Button>
+          <Button onClick={createItem}>Add Item</Button>
         </DialogActions>
       </Dialog>
     </span>
