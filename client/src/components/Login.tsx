@@ -80,24 +80,12 @@ export default function Login() {
     signInWithRedirect(auth, provider);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    
-  };
-
   const demoLogin = async () => {
     setUser({
       uid: "guest",
       displayName: "Guest",
       email: ""
     });
-    console.log(user);
     let lists = await getUserLists("guest"); 
     setUserLists(lists);
     history.push("/dashboard"); 

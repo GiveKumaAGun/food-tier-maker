@@ -28,12 +28,16 @@ app.get('/api/hello', (req, res) => {
   res.send('Hello World');
 });
 
-app.get('/api/lists/:listId/images', (req, res) => {
-  
+app.get('/api/images/:imageId', async (req, res) => {
+  const file = bucket.file(req.params.imageId)
+  const downloadedFile = await file.download()
+
+  const base64 = Buffer.from(downloadedFile[0]).toString("base64")
+
+  res.send(base64)
 });
 
 app.post('/api/image', multer.single('file'), (req, res, next) => {
-  console.log(req.query)
   if (!req.file) {
     res.status(400).send('No file uploaded.');
     return;

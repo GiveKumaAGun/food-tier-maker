@@ -26,10 +26,8 @@ function App() {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
       return true;
     } else {
-      console.log("No such document!");
       return false;
     }
   };

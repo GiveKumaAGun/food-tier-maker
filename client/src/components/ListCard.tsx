@@ -13,10 +13,6 @@ export default function ListCard(props: { name: string, comment: string, address
   const setCurrentList = useSetRecoilState(currentListState);
   const history = useHistory();
 
-  React.useEffect(() => {
-    console.log("props.listData", props.listData);
-  }, []);
-
   const buttonHandler = () => {
     setCurrentList(props.listData);
     history.push(`/lists/${props.listData.id}`);

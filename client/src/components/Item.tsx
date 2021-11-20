@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
-import { userListsState, userState, currentListState } from "../atoms";
+import { userListsState, userState, currentListState, imageViewState } from "../atoms";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -37,10 +37,25 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
   const [name, setName] = React.useState(props.item.name);
   const [comment, setComment] = React.useState(props.item.comment);
   const [tier, setTier] = React.useState(props.tier.row_name);
+  const [image, setImage] = React.useState(null);
+  const imageView = useRecoilValue(imageViewState);
 
   const user = useRecoilValue(userState);
   const [currentList, setCurrentList] = useRecoilState(currentListState);
   const setUserLists = useSetRecoilState(userListsState);
+
+  const fetchImage = async () => {
+    if (currentList) {
+      if (props.item.image) {
+        let response = await axios.get(`/api/images/${props.item.image}`);
+        setImage(response.data);
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    fetchImage();
+  }, [currentList]);
   
   const handleClickOpenEdit = () => {
     setOpenEdit(true);
@@ -114,7 +129,6 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
 
   const uploadFile = async  (e: HTMLInputElement) => {
     const imageId = uuidv4();
-    console.log(imageId);
     let formData = new FormData();
     
 
@@ -124,13 +138,11 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
       const itemIndex = _.findIndex(clone[rowIndex].row_items, { name: props.item.name });
       const newRowIndex = _.findIndex(clone, {row_name: tier});
       const removed = clone[rowIndex].row_items.splice(itemIndex, 1);
-      console.log(removed[0].image);
       clone[newRowIndex].row_items.push({ name: removed[0].name, comment: removed[0].comment, image: imageId});
 
       if (e.files) {
 
         formData.append("file", e.files[0]);
-        formData.append("id", imageId);
   
         await axios({
           url: `/api/image?${"imageId=" + imageId + "&prevImageId=" + removed[0].image}`,
@@ -156,7 +168,11 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
   return (
     <span>
       <RowItem color="primary" variant="contained" onClick={handleClickOpenEdit}>
-        <Typography sx={{ lineHeight: 1 }}>{props.item.comment ? props.item.name + "*" : props.item.name}</Typography>
+        { imageView && image ? 
+          <img style={{ width: "100px", height: "100px", borderRadius: "4px"}} src={`data:image/png;base64,${image}`} /> 
+          : 
+          <Typography sx={{ lineHeight: 1 }}>{props.item.comment ? props.item.name + "*" : props.item.name}</Typography>
+        }
       </RowItem>
       {/* DIALOG FOR EDIT ITEM */}
       <Dialog open={openEdit} onClose={handleCloseEdit}>
@@ -165,10 +181,13 @@ export default function Item(props: { item: TierItem, tier: TierRow }) {
           <Button color="error" variant="contained" onClick={handleClickOpenDelete}>Delete</Button>
         </DialogTitle>
         <DialogContent>
-          <Button variant="contained" component="label">
-            <input onChange={(e) => uploadFile(e.target)} type="file" id="image" name="image" accept="image/png, image/jpeg" hidden />
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", margin: "1rem" }}>
+            {image ? <img style={{ width: "70%", height: "auto"}} src={`data:image/png;base64,${image}`} /> : null}
+            <Button variant="contained" component="label" sx={{ margin: 1 }}>
+              <input onChange={(e) => uploadFile(e.target)} type="file" id="image" name="image" accept="image/png, image/jpeg" hidden />
             Upload an image
-          </Button>
+            </Button>
+          </div>
           <TextField
             autoFocus
             margin="dense"
