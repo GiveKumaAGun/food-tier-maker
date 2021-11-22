@@ -55,10 +55,6 @@ export default function CreateRowDialog() {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add a Tier</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
-          </DialogContentText> */}
           <TextField
             autoFocus
             margin="dense"

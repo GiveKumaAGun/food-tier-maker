@@ -12,6 +12,7 @@ import { useSetRecoilState } from "recoil";
 import { userState, userListsState } from "./atoms";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import ListEditor from "./components/ListEditor";
+import ListViewer from "./components/ListViewer";
 import { getUserLists } from "./util/index";
 import Landing from "./components/Landing";
 
@@ -62,7 +63,8 @@ function App() {
           <Route path="/dashboard" exact component={Dashboard} />
           <Route path="/" exact component={Landing} />
           <Route path="/login" exact component={Login} />
-          <Route path="/lists/:list_id" exact component={ListEditor} />
+          <Route path="/lists/edit/:list_id" exact component={ListEditor} />
+          <Route path="/lists/view/:list_id/" exact component={ListViewer} />
         </ThemeProvider>
       </Router>
     </div>
