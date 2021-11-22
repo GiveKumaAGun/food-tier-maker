@@ -15,7 +15,7 @@ export default function ListCard(props: { name: string, comment: string, address
 
   const buttonHandler = () => {
     setCurrentList(props.listData);
-    history.push(`/lists/${props.listData.id}`);
+    history.push(`/lists/edit/${props.listData.id}`);
   };
 
   return (
@@ -32,7 +32,7 @@ export default function ListCard(props: { name: string, comment: string, address
         </Typography>
       </CardContent>
       <CardActions>
-        <Button color="secondary" variant="contained" size="small" onClick={buttonHandler}>View List</Button>
+        <Button color="secondary" variant="contained" size="small" onClick={buttonHandler}>Edit List</Button>
       </CardActions>
     </Card>
   );

@@ -11,18 +11,13 @@ describe("The dashboard should", () => {
     render(
       <RecoilRoot 
         initializeState={(snap) => {
-          snap.set(userState, {
-            uid: "guest",
-            displayName: "Guest",
-            email: "",
-          });
+          snap.set(userState, testUserState);
         }}>
         <Dashboard />
       </RecoilRoot>
     );
 
     const component = screen.getByTestId("greeting");
-
     expect(component).toHaveTextContent("Welcome Guest");
   });
 
@@ -36,8 +31,6 @@ describe("The dashboard should", () => {
         <Dashboard />
       </RecoilRoot>
     );
-
-
 
     const component = screen.getByTestId("lists");
     expect(component).toHaveTextContent("Create new list");
