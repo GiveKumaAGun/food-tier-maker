@@ -28,11 +28,11 @@ export default function Dashboard() {
     return (
       <Container>
         <Paper sx={{m: 1, p: 2 }}>
-          <Typography variant="h2" textAlign="center"> Welcome {user.displayName}</Typography>
+          <Typography variant="h2" textAlign="center" data-testid="greeting"> Welcome {user.displayName}</Typography>
         </Paper>
         <Paper sx={{ m: 1, p: 2 }}>
           <Typography textAlign="center" variant="h4">My lists</Typography>
-          <Box sx={{ mt: 3, height: "100%", display: "grid", gridTemplateColumns: "repeat(auto-fill, 250px)", alignItems: "center", justifyContent: "center", gap: 2 }}>
+          <Box data-testid="lists" sx={{ mt: 3, height: "100%", display: "grid", gridTemplateColumns: "repeat(auto-fill, 250px)", alignItems: "center", justifyContent: "center", gap: 2 }}>
             <Box sx={{ height: "100%", p: 1 }}>
               <Card color="primary" sx={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "primary.main", color: "primary.contrastText", width: "230px", minHeight: "150px" }}>
                 <CardActions>
