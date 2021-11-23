@@ -1,7 +1,7 @@
 # Food-Tier-Maker (temp name)
 
 ## Background
-This project was created independently as a means to familiarize myself (GiveKumaAGun) with Typescript and Google Cloud Platform's services. Idea was based on [a project I created during my time at a programming bootcamp](https://github.com/GiveKumaAGun/menu-item-rating/)
+This project was created independently as a means to familiarize myself (GiveKumaAGun) with Typescript and Google Cloud Platform's services. Idea was based on [a project I created during my time at a programming bootcamp](https://github.com/GiveKumaAGun/menu-item-rating/).
 
 ## About this project
 
