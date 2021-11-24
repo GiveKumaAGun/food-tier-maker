@@ -58,11 +58,11 @@ export default function ListEditor() {
 
   if (currentList) {
     return (
-      <Container>
+      <Container data-testid="list_editor">
         <Button onClick={unsetList} color="secondary" variant="contained" sx={{ margin: 2}}>Back to dashboard</Button>
         <Paper sx={{ margin: 1, padding: 4 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}> 
-            <Typography variant="h3">{currentList.rest_name}</Typography>
+            <Typography data-testid="list_name" variant="h3">{currentList.rest_name}</Typography>
             <ShareableLinkPopover listId={list_id} />
           </Box>
           <CreateRowDialog />
@@ -75,6 +75,7 @@ export default function ListEditor() {
           </div>
           <Stack 
             sx={{ marginBlock: 1 }}
+            data-testid="tiers"
           >
             {currentList.ranking_rows.map((row: TierRow) => {
               return (
