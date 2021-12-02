@@ -46,7 +46,7 @@ export default function ShareableLinkPopover(props: { listId: string }) {
       >
         <Box sx={{ p: 2 }}>
           <Typography variant="h6" >Shareable Link</Typography>
-          <Typography sx={{ marginBlock: 2, p: 2, backgroundColor: "rgba(5, 5, 5, .1)", borderRadius: "4px" }}>{`https://menu-item-ranker.an.r.appspot.com/lists/view/${props.listId}`}</Typography>
+          <Typography sx={{ marginBlock: 2, p: 2, backgroundColor: "rgba(5, 5, 5, .1)", borderRadius: "4px", wordBreak: "break-all" }}>{`https://menu-item-ranker.an.r.appspot.com/lists/view/${props.listId}`}</Typography>
           <Button 
             variant="contained"
             color="success"

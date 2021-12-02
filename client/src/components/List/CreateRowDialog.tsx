@@ -6,10 +6,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { collection, doc, getDoc, query, where, getDocs, updateDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db } from "../../firebaseConfig";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
-import { userListsState, userState, currentListState } from "../atoms";
-import { getUserLists } from "../util/index";
+import { userListsState, userState, currentListState } from "../../atoms";
+import { getUserLists } from "../../util/index";
 
 
 export default function CreateRowDialog() {

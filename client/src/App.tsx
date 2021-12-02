@@ -1,20 +1,20 @@
 import React from "react";
 import "./App.css";
-import AppBar from "./components/AppBar";
+import AppBar from "./components/AppBar/AppBar";
 import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/Dashboard/Dashboard";
 import Login from "./components/Login";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./firebaseConfig";
 import { useSetRecoilState } from "recoil";
 import { userState, userListsState } from "./atoms";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import ListEditor from "./components/ListEditor";
-import ListViewer from "./components/ListViewer";
+import ListEditor from "./components/List/ListEditor";
+import ListViewer from "./components/List/ListViewer";
 import { getUserLists } from "./util/index";
-import Landing from "./components/Landing";
+import Landing from "./components/Landing/Landing";
 
 
 

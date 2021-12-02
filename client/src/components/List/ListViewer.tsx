@@ -1,23 +1,23 @@
 import { doc, getDoc } from "@firebase/firestore";
 import React from "react";
-import { TierRow } from "../interfaces/TierList";
-import { Container, Paper, Typography, Button, Stack, Switch, Box, Grid } from "@mui/material";
+import { TierRow } from "../../interfaces/TierList";
+import { Container, Paper, Typography, Button, Stack, Switch, Box } from "@mui/material";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { currentListState, imageViewState, userState } from "../atoms";
+import { currentListState, imageViewState, userState } from "../../atoms";
 import CreateRowDialog from "./CreateRowDialog";
 import CreateItemDialog from "./CreateItemDialog";
 import EditTiersDialog from "./EditTiersDialog";
 import ListRow from "./ListRow";
 import { useParams } from "react-router-dom";
-import { db } from "../firebaseConfig";
+import { db } from "../../firebaseConfig";
 import { useHistory } from "react-router-dom";
 import DeleteListDialog from "./DeleteListDialog";
 import axios from "axios";
 import _ from "lodash";
-import ShareableLinkPopover from "./ShareableLinkPopover";
+import ListRowViewer from "./ListRowViewer";
 
 
-export default function ListEditor() {
+export default function ListViewer() {
   const [currentList, setCurrentList] = useRecoilState(currentListState);
   const { list_id } = useParams<{list_id: string}>();
   const history = useHistory();
@@ -36,9 +36,6 @@ export default function ListEditor() {
   };
 
   React.useEffect(() => {
-    if (!user) {
-      history.push("/");
-    }
     if (!currentList) {
       fetchListData();
     }
@@ -61,14 +58,7 @@ export default function ListEditor() {
       <Container>
         <Button onClick={unsetList} color="secondary" variant="contained" sx={{ margin: 2}}>Back to dashboard</Button>
         <Paper sx={{ margin: 1, padding: 4 }}>
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}> 
-            <Typography variant="h3">{currentList.rest_name}</Typography>
-            <ShareableLinkPopover listId={list_id} />
-          </Box>
-          <CreateRowDialog />
-          <CreateItemDialog />
-          <EditTiersDialog tiers={currentList.ranking_rows} />
-          <DeleteListDialog />
+          <Typography variant="h3">{currentList.rest_name}</Typography>
           <div style={{ marginLeft: "0.3rem" }}>
             <Typography component="span">Show Images</Typography>
             <Switch checked={imageView} onChange={toggleImageView} />
@@ -78,7 +68,7 @@ export default function ListEditor() {
           >
             {currentList.ranking_rows.map((row: TierRow) => {
               return (
-                <ListRow key={row.row_name} rowData={row} />
+                <ListRowViewer key={row.row_name} rowData={row} />
               );
             })}
           </Stack>

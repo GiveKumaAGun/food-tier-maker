@@ -1,6 +1,6 @@
 import React from "react";
 import {cleanup, fireEvent, render, screen} from "@testing-library/react";
-import Dashboard from "../components/Dashboard";
+import Dashboard from "../components/Dashboard/Dashboard";
 import { RecoilRoot } from "recoil";
 import { userState, userListsState } from "../atoms";
 import { getUserLists } from "../util";
