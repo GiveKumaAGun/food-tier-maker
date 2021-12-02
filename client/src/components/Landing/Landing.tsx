@@ -17,13 +17,17 @@ export default function Landing() {
         <h1 className="description-header-h1">What is FoodTierMaker?</h1>
         <p className="description-content-p">FoodTierMaker (temp name) is a web application for creating tier lists of individual items at restaurants. Although this application is being developed with this theme in mind, users can make tier lists of whatever they want so go nuts I guess ¯\_(ツ)_/¯.</p>
         {user ? 
-          <Link to="/dashboard">
-            <Button variant="contained" color="secondary" sx={{fontWeight: "fontWeightBold"}}>To dashboard</Button>
-          </Link> 
+          <Button variant="contained" color="secondary" sx={{fontWeight: "fontWeightBold"}}>
+            <Link to="/dashboard" style={{ textDecoration: "none", color: "black" }}>
+              To dashboard
+            </Link> 
+          </Button>
           :
-          <Link to="/login">
-            <Button variant="contained" color="secondary" sx={{fontWeight: "fontWeightBold"}}>To Login Page</Button>
-          </Link>
+          <Button variant="contained" color="secondary" sx={{fontWeight: "fontWeightBold"}}>
+            <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
+              To login page
+            </Link>             
+          </Button>
         }
       </div>
       <div className="image-container">
