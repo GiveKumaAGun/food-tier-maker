@@ -6,14 +6,14 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { collection, doc, getDoc, query, where, getDocs, updateDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db } from "../../firebaseConfig";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
-import { userListsState, userState, currentListState } from "../atoms";
-import { TierRow } from "../interfaces/TierList";
+import { userListsState, userState, currentListState } from "../../atoms";
+import { TierRow } from "../../interfaces/TierList";
 import { Box, DialogContentText, IconButton } from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import _ from "lodash";
-import { getUserLists } from "../util";
+import { getUserLists } from "../../util";
 import { useHistory } from "react-router-dom";
 
 export default function DeleteListDialog() {

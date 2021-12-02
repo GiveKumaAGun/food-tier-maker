@@ -6,16 +6,16 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db } from "../../firebaseConfig";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
-import { userListsState, userState, currentListState } from "../atoms";
+import { userListsState, userState, currentListState } from "../../atoms";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import { TierRow } from "../interfaces/TierList";
+import { TierRow } from "../../interfaces/TierList";
 import _ from "lodash";
-import { getUserLists } from "../util";
+import { getUserLists } from "../../util";
 
 
 

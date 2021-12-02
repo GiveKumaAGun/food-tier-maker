@@ -5,10 +5,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { signOut } from "@firebase/auth";
-import { auth } from "../firebaseConfig";
+import { auth } from "../../firebaseConfig";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { userState, userListsState, currentListState } from "../atoms";
-import { useHistory } from "react-router-dom";
+import { userState, userListsState, currentListState } from "../../atoms";
+import { useHistory, Link } from "react-router-dom";
 
 export default function ButtonAppBar() {
   const [user, setUser] = useRecoilState(userState);
@@ -31,7 +31,9 @@ export default function ButtonAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: "fontWeightBold" }}>
-            Menu Item Ranker
+            <Link to="/" style={{ color: "white", textDecoration: "none"}}>
+              Menu Item Ranker
+            </Link>
           </Typography>
           {user ? 
             <Button color="secondary" variant="contained" sx={{fontWeight: "fontWeightBold"}} onClick={signOutHandler}>Sign Out</Button>

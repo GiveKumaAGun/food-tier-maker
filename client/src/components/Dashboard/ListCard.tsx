@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { DocumentData } from "@firebase/firestore";
 import { useSetRecoilState } from "recoil";
-import { currentListState } from "../atoms";
+import { currentListState } from "../../atoms";
 import { useHistory } from "react-router-dom";
 
 export default function ListCard(props: { name: string, comment: string, address: string, listData: DocumentData}) {

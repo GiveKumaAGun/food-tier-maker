@@ -6,9 +6,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { collection, addDoc, query, where, getDocs, setDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db } from "../../firebaseConfig";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userListsState, userState } from "../atoms";
+import { userListsState, userState } from "../../atoms";
 
 
 export default function CreateListDialog() {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Paper, Typography, Grid, Card, CardActions, Box } from "@mui/material";
 import { useRecoilValue } from "recoil";
-import { userListsState, userState, currentListState } from "../atoms";
+import { userListsState, userState, currentListState } from "../../atoms";
 import ListCard from "./ListCard";
 import CreateListDialog from "./CreateListDialog";
 import { useHistory } from "react-router-dom";

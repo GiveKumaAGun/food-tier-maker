@@ -1,6 +1,6 @@
 import React from "react";
 import {cleanup, fireEvent, render, screen} from "@testing-library/react";
-import ListEditor from "../components/ListEditor";
+import ListEditor from "../components/List/ListEditor";
 import { RecoilRoot } from "recoil";
 import { userState, userListsState, currentListState } from "../atoms";
 import { testUserListState, testUserState, testCurrentListState } from "./testStates";
@@ -38,7 +38,6 @@ describe("The ListEditor should", () => {
         </Router>
       </RecoilRoot>,
     );
-
     
     const listName = screen.getByTestId("list_name");
     const tiers = screen.getByTestId("tiers");

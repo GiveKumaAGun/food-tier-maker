@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "firebase/auth";
+import { GoogleAuthProvider, signInWithRedirect, getRedirectResult, signInWithPopup } from "firebase/auth";
 import { provider, auth, db } from "../firebaseConfig";
 import { useHistory } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -74,10 +74,10 @@ export default function Login() {
     if (user) {
       history.push("/dashboard");
     }
-  }, []);
+  }, [user]);
   
   const buttonHandler = () => {
-    signInWithRedirect(auth, provider);
+    signInWithPopup(auth, provider);
   };
 
   const demoLogin = async () => {
